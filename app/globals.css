@@ -1,0 +1,258 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------
+   PATRIMONIA — Design tokens
+   Identité : nuit indigo profonde + accent jade "patrimoine".
+   ------------------------------------------------------------------ */
+@theme inline {
+  --color-bg: var(--pat-bg);
+  --color-bg-subtle: var(--pat-bg-subtle);
+  --color-surface: var(--pat-surface);
+  --color-surface-2: var(--pat-surface-2);
+  --color-elevated: var(--pat-elevated);
+  --color-border: var(--pat-border);
+  --color-border-strong: var(--pat-border-strong);
+  --color-fg: var(--pat-fg);
+  --color-fg-muted: var(--pat-fg-muted);
+  --color-fg-subtle: var(--pat-fg-subtle);
+
+  --color-brand-50: var(--pat-brand-50);
+  --color-brand-100: var(--pat-brand-100);
+  --color-brand-200: var(--pat-brand-200);
+  --color-brand-300: var(--pat-brand-300);
+  --color-brand-400: var(--pat-brand-400);
+  --color-brand-500: var(--pat-brand-500);
+  --color-brand-600: var(--pat-brand-600);
+  --color-brand-700: var(--pat-brand-700);
+  --color-brand-800: var(--pat-brand-800);
+  --color-brand-900: var(--pat-brand-900);
+  --color-brand-950: var(--pat-brand-950);
+
+  --color-accent-50: var(--pat-accent-50);
+  --color-accent-100: var(--pat-accent-100);
+  --color-accent-200: var(--pat-accent-200);
+  --color-accent-300: var(--pat-accent-300);
+  --color-accent-400: var(--pat-accent-400);
+  --color-accent-500: var(--pat-accent-500);
+  --color-accent-600: var(--pat-accent-600);
+  --color-accent-700: var(--pat-accent-700);
+  --color-accent-800: var(--pat-accent-800);
+
+  --color-positive: var(--pat-positive);
+  --color-positive-soft: var(--pat-positive-soft);
+  --color-negative: var(--pat-negative);
+  --color-negative-soft: var(--pat-negative-soft);
+  --color-warning: var(--pat-warning);
+  --color-warning-soft: var(--pat-warning-soft);
+  --color-info: var(--pat-info);
+  --color-info-soft: var(--pat-info-soft);
+
+  --radius-card: 1rem;
+  --radius-xl2: 1.25rem;
+
+  --font-sans: var(--font-inter, 'Inter'), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px -12px rgb(15 23 42 / 0.12);
+  --shadow-pop: 0 12px 40px -12px rgb(15 23 42 / 0.28);
+
+  --animate-fade-up: fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.25s ease-out both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+}
+
+:root {
+  --pat-bg: #f6f7f9;
+  --pat-bg-subtle: #eef0f4;
+  --pat-surface: #ffffff;
+  --pat-surface-2: #f9fafb;
+  --pat-elevated: #ffffff;
+  --pat-border: #e5e8ee;
+  --pat-border-strong: #d2d7e0;
+  --pat-fg: #0b1020;
+  --pat-fg-muted: #5a6478;
+  --pat-fg-subtle: #8b94a7;
+
+  --pat-brand-50: #eef1fb;
+  --pat-brand-100: #dbe1f6;
+  --pat-brand-200: #b8c3ec;
+  --pat-brand-300: #8d9cdd;
+  --pat-brand-400: #6274c8;
+  --pat-brand-500: #4152ab;
+  --pat-brand-600: #2f3d8a;
+  --pat-brand-700: #242f6c;
+  --pat-brand-800: #1a2250;
+  --pat-brand-900: #151b3b;
+  --pat-brand-950: #0d1128;
+
+  --pat-accent-50: #e6faf4;
+  --pat-accent-100: #c7f3e6;
+  --pat-accent-200: #93e7ce;
+  --pat-accent-300: #59d6b2;
+  --pat-accent-400: #2bbf95;
+  --pat-accent-500: #00a97f;
+  --pat-accent-600: #008b68;
+  --pat-accent-700: #006e53;
+  --pat-accent-800: #005541;
+
+  --pat-positive: #0f8f5f;
+  --pat-positive-soft: #e4f6ed;
+  --pat-negative: #d1344b;
+  --pat-negative-soft: #fdeaed;
+  --pat-warning: #b5741a;
+  --pat-warning-soft: #fdf2e2;
+  --pat-info: #2f5fd0;
+  --pat-info-soft: #eaf0fd;
+
+  color-scheme: light;
+}
+
+.dark {
+  --pat-bg: #0a0e1a;
+  --pat-bg-subtle: #070a14;
+  --pat-surface: #111729;
+  --pat-surface-2: #161d33;
+  --pat-elevated: #1a2238;
+  --pat-border: #232c45;
+  --pat-border-strong: #33405f;
+  --pat-fg: #eef1f8;
+  --pat-fg-muted: #9aa5be;
+  --pat-fg-subtle: #6e7a94;
+
+  --pat-brand-50: #0d1128;
+  --pat-brand-100: #151b3b;
+  --pat-brand-200: #1a2250;
+  --pat-brand-300: #242f6c;
+  --pat-brand-400: #2f3d8a;
+  --pat-brand-500: #5566c4;
+  --pat-brand-600: #7f8edb;
+  --pat-brand-700: #a3b0e8;
+  --pat-brand-800: #c3ccf2;
+  --pat-brand-900: #dde3fa;
+  --pat-brand-950: #eef1fd;
+
+  --pat-accent-50: #04241d;
+  --pat-accent-100: #05372b;
+  --pat-accent-200: #07543f;
+  --pat-accent-300: #0a7558;
+  --pat-accent-400: #10a37c;
+  --pat-accent-500: #1fc294;
+  --pat-accent-600: #4bd7ae;
+  --pat-accent-700: #82e7c9;
+  --pat-accent-800: #b6f2df;
+
+  --pat-positive: #35d08c;
+  --pat-positive-soft: #0d3128;
+  --pat-negative: #ff6b7f;
+  --pat-negative-soft: #3a1720;
+  --pat-warning: #f0b45e;
+  --pat-warning-soft: #37290f;
+  --pat-info: #7ba1f5;
+  --pat-info-soft: #14213f;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent-200);
+    color: var(--color-brand-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .pat-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+  .pat-scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .pat-scroll::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-strong);
+    border-radius: 999px;
+  }
+  .pat-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pat-grid-bg {
+    background-image:
+      radial-gradient(circle at 15% 10%, color-mix(in oklab, var(--color-accent-500) 18%, transparent), transparent 42%),
+      radial-gradient(circle at 85% 0%, color-mix(in oklab, var(--color-brand-500) 22%, transparent), transparent 46%);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
