@@ -64,3 +64,16 @@ export interface AuditEntry {
   createdAt: ISODate;
   metadata?: Record<string, string | number | boolean | null>;
 }
+
+/** Jeton d'accès temporaire véhiculé par un QR code.
+ *  Le QR ne contient que ce jeton opaque : aucune donnée personnelle. */
+export interface QrToken {
+  token: string;
+  firmId: Id;
+  clientId: Id;
+  createdBy: Id;
+  scope: 'client_file' | 'client_portal';
+  createdAt: ISODate;
+  expiresAt: ISODate;
+  usedAt: ISODate | null;
+}

@@ -15,6 +15,7 @@ import type {
   RealEstateAsset,
   StoredDocument,
   UserAccount,
+  QrToken,
 } from '@/types';
 import { DEMO_FIRMS, DEMO_USERS } from '@/data/demo/people';
 import { buildAllBundles, buildStandaloneAlerts } from '@/data/demo/build';
@@ -49,6 +50,9 @@ export interface DemoStore {
   messages: Message[];
   documents: StoredDocument[];
   audit: AuditEntry[];
+  qrTokens: QrToken[];
+  /** Contenu binaire des documents déposés en mode démonstration. */
+  documentBlobs: Map<string, { mimeType: string; base64: string }>;
   seededAt: Date;
 }
 
@@ -162,6 +166,8 @@ function seedStore(): DemoStore {
     messages: activity.messages,
     documents: activity.documents,
     audit: [],
+    qrTokens: [],
+    documentBlobs: new Map(),
     seededAt: now,
   };
 }
@@ -185,6 +191,13 @@ export function resetDemoStore(): DemoStore {
 
 export function nextId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+/** Jeton opaque imprévisible, utilisé par les accès QR. */
+export function randomToken(): string {
+  const bytes = new Uint8Array(24);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
 }
 
 export function buildComment(authorId: string, authorLabel: string, body: string): AlertComment {

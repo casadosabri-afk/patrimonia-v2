@@ -17,6 +17,7 @@ import type {
   RiskProfile,
   StoredDocument,
   UserAccount,
+  QrToken,
 } from '@/types';
 import type { AccessContext } from './access';
 
@@ -81,6 +82,9 @@ export interface Repository {
   listDocuments(access: AccessContext, clientId?: string): Promise<StoredDocument[]>;
   createDocument(access: AccessContext, input: NewDocumentInput): Promise<StoredDocument>;
   deleteDocument(access: AccessContext, documentId: string): Promise<void>;
+
+  createQrToken(access: AccessContext, clientId: string, scope: QrToken['scope'], ttlMinutes: number): Promise<QrToken>;
+  consumeQrToken(token: string): Promise<QrToken | null>;
 
   listAudit(access: AccessContext, limit?: number): Promise<AuditEntry[]>;
   recordAudit(access: AccessContext, entry: NewAuditInput): Promise<AuditEntry>;

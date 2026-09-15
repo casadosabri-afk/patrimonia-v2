@@ -14,12 +14,14 @@ import type {
   Message,
   StoredDocument,
   UserAccount,
+  QrToken,
 } from '@/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
 import { fullName } from '@/lib/utils/format';
 import { assert, canAdministerFirm, canReadClient, canWriteClientData, type AccessContext } from './access';
 import * as map from './mappers';
+import { randomToken } from './demoStore';
 import type {
   ClientFilters,
   ClientRecord,
@@ -680,6 +682,78 @@ export class SupabaseRepository implements Repository {
       targetId: documentId,
       targetLabel: data?.name ?? null,
     });
+  }
+
+  // ---------------------------------------------------------------- Accès QR
+  async createQrToken(
+    access: AccessContext,
+    clientId: string,
+    scope: QrToken['scope'],
+    ttlMinutes: number,
+  ): Promise<QrToken> {
+    assert(canWriteClientData(access), 'Génération réservée au cabinet.');
+    const supabase = await this.client();
+    const now = new Date();
+    const token = randomToken();
+
+    const { data, error } = await supabase
+      .from('qr_tokens')
+      .insert({
+        token,
+        firm_id: access.firmId,
+        client_id: clientId,
+        created_by: access.userId,
+        scope,
+        expires_at: new Date(now.getTime() + ttlMinutes * 60_000).toISOString(),
+      })
+      .select('*')
+      .single();
+
+    if (error || !data) throw new Error(error?.message ?? 'Génération du jeton impossible.');
+
+    await this.recordAudit(access, {
+      action: 'qr.create',
+      targetType: 'client',
+      targetId: clientId,
+      targetLabel: null,
+      metadata: { scope, ttlMinutes },
+    });
+
+    return {
+      token: data.token,
+      firmId: data.firm_id,
+      clientId: data.client_id,
+      createdBy: data.created_by,
+      scope: data.scope,
+      createdAt: data.created_at,
+      expiresAt: data.expires_at,
+      usedAt: data.used_at ?? null,
+    };
+  }
+
+  async consumeQrToken(token: string): Promise<QrToken | null> {
+    const supabase = await this.client();
+
+    const { data } = await supabase
+      .from('qr_tokens')
+      .update({ used_at: new Date().toISOString() })
+      .eq('token', token)
+      .is('used_at', null)
+      .gt('expires_at', new Date().toISOString())
+      .select('*')
+      .maybeSingle();
+
+    if (!data) return null;
+    return {
+      token: data.token,
+      firmId: data.firm_id,
+      clientId: data.client_id,
+      createdBy: data.created_by,
+      scope: data.scope,
+      createdAt: data.created_at,
+      expiresAt: data.expires_at,
+      usedAt: data.used_at ?? null,
+    };
   }
 
   // -------------------------------------------------------------------- Audit

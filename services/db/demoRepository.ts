@@ -11,10 +11,11 @@ import type {
   Message,
   StoredDocument,
   UserAccount,
+  QrToken,
 } from '@/types';
 import { fullName } from '@/lib/utils/format';
 import { assert, canAdministerFirm, canReadClient, canWriteClientData, type AccessContext } from './access';
-import { buildComment, getDemoStore, nextId } from './demoStore';
+import { buildComment, getDemoStore, nextId, randomToken } from './demoStore';
 import type {
   ClientFilters,
   ClientRecord,
@@ -506,6 +507,49 @@ export class DemoRepository implements Repository {
       targetId: documentId,
       targetLabel: removed?.name ?? null,
     });
+  }
+
+  // ---------------------------------------------------------------- Accès QR
+  async createQrToken(
+    access: AccessContext,
+    clientId: string,
+    scope: QrToken['scope'],
+    ttlMinutes: number,
+  ): Promise<QrToken> {
+    assert(canWriteClientData(access), 'Génération réservée au cabinet.');
+    this.requireClient(access, clientId);
+    const now = new Date();
+
+    const token: QrToken = {
+      token: randomToken(),
+      firmId: access.firmId,
+      clientId,
+      createdBy: access.userId,
+      scope,
+      createdAt: now.toISOString(),
+      expiresAt: new Date(now.getTime() + ttlMinutes * 60_000).toISOString(),
+      usedAt: null,
+    };
+
+    this.store().qrTokens.push(token);
+    await this.recordAudit(access, {
+      action: 'qr.create',
+      targetType: 'client',
+      targetId: clientId,
+      targetLabel: null,
+      metadata: { scope, ttlMinutes },
+    });
+    return token;
+  }
+
+  async consumeQrToken(token: string): Promise<QrToken | null> {
+    const entry = this.store().qrTokens.find((item) => item.token === token);
+    if (!entry) return null;
+    if (entry.usedAt) return null;
+    if (new Date(entry.expiresAt).getTime() < Date.now()) return null;
+
+    entry.usedAt = new Date().toISOString();
+    return entry;
   }
 
   // -------------------------------------------------------------------- Audit
