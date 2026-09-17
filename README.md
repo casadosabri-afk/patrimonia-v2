@@ -160,6 +160,11 @@ Méthodes exposées : `getQuote`, `getQuotes`, `getHistoricalPrices`,
 `getCompanyProfile`, `getFinancials`, `getNews`, `getIndexData`,
 `getMacroIndicators`, `getFxToEur`.
 
+Les graphiques de cours couvrent huit plages, de la journée à dix ans, et
+permettent de comparer un support à un indice de référence. Les deux séries
+sont alors ramenées en base 100 au début de la période, de sorte que la lecture
+porte sur les trajectoires et non sur les niveaux de cours.
+
 ---
 
 ## Mode démonstration
