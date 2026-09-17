@@ -15,6 +15,7 @@ import type {
   StoredDocument,
   UserAccount,
   QrToken,
+  Goal,
 } from '@/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getSupabaseServerClient } from '@/lib/supabase/server';
@@ -29,6 +30,7 @@ import type {
   NewAuditInput,
   NewClientInput,
   NewDocumentInput,
+  NewGoalInput,
   NewInteractionInput,
   Repository,
 } from './repository';
@@ -681,6 +683,86 @@ export class SupabaseRepository implements Repository {
       targetType: 'document',
       targetId: documentId,
       targetLabel: data?.name ?? null,
+    });
+  }
+
+  // ------------------------------------------------------------------ Objectifs
+  private goalRow(input: NewGoalInput, firmId: string) {
+    return {
+      firm_id: firmId,
+      client_id: input.clientId,
+      kind: input.kind,
+      label: input.label,
+      target_amount: input.targetAmount,
+      current_amount: input.currentAmount,
+      monthly_contribution: input.monthlyContribution,
+      target_date: input.targetDate,
+      priority: input.priority,
+      notes: input.notes,
+    };
+  }
+
+  async createGoal(access: AccessContext, input: NewGoalInput): Promise<Goal> {
+    assert(canWriteClientData(access), 'Action réservée au cabinet.');
+    const supabase = await this.client();
+
+    const { data, error } = await supabase
+      .from('goals')
+      .insert(this.goalRow(input, access.firmId))
+      .select('*')
+      .single();
+
+    if (error || !data) throw new Error(error?.message ?? 'Création de l’objectif impossible.');
+    const goal = map.toGoal(data);
+    await this.recordAudit(access, {
+      action: 'goal.create',
+      targetType: 'goal',
+      targetId: goal.id,
+      targetLabel: goal.label,
+    });
+    return goal;
+  }
+
+  async updateGoal(access: AccessContext, goalId: string, input: NewGoalInput): Promise<Goal> {
+    assert(canWriteClientData(access), 'Action réservée au cabinet.');
+    const supabase = await this.client();
+
+    const { data, error } = await supabase
+      .from('goals')
+      .update(this.goalRow(input, access.firmId))
+      .eq('id', goalId)
+      .eq('firm_id', access.firmId)
+      .select('*')
+      .single();
+
+    if (error || !data) throw new Error(error?.message ?? 'Objectif introuvable.');
+    const goal = map.toGoal(data);
+    await this.recordAudit(access, {
+      action: 'goal.update',
+      targetType: 'goal',
+      targetId: goal.id,
+      targetLabel: goal.label,
+    });
+    return goal;
+  }
+
+  async deleteGoal(access: AccessContext, goalId: string): Promise<void> {
+    assert(canWriteClientData(access), 'Action réservée au cabinet.');
+    const supabase = await this.client();
+
+    const { data } = await supabase
+      .from('goals')
+      .select('label')
+      .eq('id', goalId)
+      .eq('firm_id', access.firmId)
+      .maybeSingle();
+
+    await supabase.from('goals').delete().eq('id', goalId).eq('firm_id', access.firmId);
+    await this.recordAudit(access, {
+      action: 'goal.delete',
+      targetType: 'goal',
+      targetId: goalId,
+      targetLabel: data?.label ?? null,
     });
   }
 

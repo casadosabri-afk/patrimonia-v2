@@ -102,6 +102,52 @@ describe('cloisonnement des cabinets', () => {
     expect(meridienAudit).toHaveLength(0);
   });
 
+  it("permet au cabinet de gérer les objectifs de ses propres clients", async () => {
+    const created = await repository.createGoal(horizonAdvisor, {
+      clientId: 'client-dupont',
+      kind: 'voyage',
+      label: 'Objectif de test',
+      targetAmount: 20000,
+      currentAmount: 5000,
+      monthlyContribution: 200,
+      targetDate: '2030-01-01',
+      priority: 'basse',
+      notes: null,
+    });
+
+    const record = await repository.getClientRecord(horizonAdvisor, 'client-dupont');
+    expect(record?.goals.some((goal) => goal.id === created.id)).toBe(true);
+
+    await repository.updateGoal(horizonAdvisor, created.id, {
+      clientId: 'client-dupont',
+      kind: 'voyage',
+      label: 'Objectif modifié',
+      targetAmount: 25000,
+      currentAmount: 5000,
+      monthlyContribution: 250,
+      targetDate: '2031-01-01',
+      priority: 'moyenne',
+      notes: 'Mis à jour',
+    });
+
+    const updated = await repository.getClientRecord(horizonAdvisor, 'client-dupont');
+    expect(updated?.goals.find((goal) => goal.id === created.id)?.label).toBe('Objectif modifié');
+
+    await repository.deleteGoal(horizonAdvisor, created.id);
+    const after = await repository.getClientRecord(horizonAdvisor, 'client-dupont');
+    expect(after?.goals.some((goal) => goal.id === created.id)).toBe(false);
+  });
+
+  it("empêche un autre cabinet de modifier un objectif", async () => {
+    const record = await repository.getClientRecord(horizonAdvisor, 'client-dupont');
+    const goal = record?.goals[0];
+    expect(goal).toBeDefined();
+
+    await expect(repository.deleteGoal(meridienAdvisor, goal!.id)).rejects.toBeInstanceOf(
+      AccessDeniedError,
+    );
+  });
+
   it("refuse de consommer un jeton QR d'un autre cabinet côté lecture", async () => {
     const clients = await repository.listClients(horizonAdvisor);
     const token = await repository.createQrToken(horizonAdvisor, clients[0]!.id, 'client_file', 15);

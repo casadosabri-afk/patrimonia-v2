@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useMemo, useState, useTransition } from 'react';
+import { useActionState, useEffect, useMemo, useState, useTransition } from 'react';
 import Link from 'next/link';
 import { Bell, Check, ListPlus, MessageSquarePlus, UserPlus, X } from 'lucide-react';
 import type { Alert, AlertCategory, AlertStatus, Client, UserAccount } from '@/types';
@@ -52,7 +52,9 @@ export function AlertsView({
   const [state, formAction, pending] = useActionState(commentAlertAction, EMPTY_ACTION_STATE);
   const [isPending, startTransition] = useTransition();
 
-  if (state.success && commentTarget) setCommentTarget(null);
+  useEffect(() => {
+    if (state.success) setCommentTarget(null);
+  }, [state.success]);
 
   const clientsById = useMemo(() => new Map(clients.map((client) => [client.id, client])), [clients]);
   const advisorsById = useMemo(() => new Map(advisors.map((item) => [item.id, item])), [advisors]);

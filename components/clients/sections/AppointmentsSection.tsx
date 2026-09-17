@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState } from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import { CalendarDays, MapPin, Plus } from 'lucide-react';
 import type { Appointment } from '@/types';
 import {
@@ -30,7 +30,9 @@ export function AppointmentsSection({
 }) {
   const [open, setOpen] = useState(false);
   const [state, formAction, pending] = useActionState(createAppointmentAction, EMPTY_ACTION_STATE);
-  if (state.success && open) setOpen(false);
+  useEffect(() => {
+    if (state.success) setOpen(false);
+  }, [state.success]);
 
   const now = Date.now();
   const upcoming = appointments.filter((item) => new Date(item.startsAt).getTime() >= now);

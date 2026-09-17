@@ -12,6 +12,7 @@ import type {
   StoredDocument,
   UserAccount,
   QrToken,
+  Goal,
 } from '@/types';
 import { fullName } from '@/lib/utils/format';
 import { assert, canAdministerFirm, canReadClient, canWriteClientData, type AccessContext } from './access';
@@ -23,6 +24,7 @@ import type {
   NewAuditInput,
   NewClientInput,
   NewDocumentInput,
+  NewGoalInput,
   NewInteractionInput,
   Repository,
 } from './repository';
@@ -506,6 +508,81 @@ export class DemoRepository implements Repository {
       targetType: 'document',
       targetId: documentId,
       targetLabel: removed?.name ?? null,
+    });
+  }
+
+  // ------------------------------------------------------------------ Objectifs
+  async createGoal(access: AccessContext, input: NewGoalInput): Promise<Goal> {
+    assert(canWriteClientData(access), 'Action réservée au cabinet.');
+    this.requireClient(access, input.clientId);
+
+    const goal: Goal = {
+      id: nextId('goal'),
+      firmId: access.firmId,
+      clientId: input.clientId,
+      kind: input.kind,
+      label: input.label,
+      targetAmount: input.targetAmount,
+      currentAmount: input.currentAmount,
+      monthlyContribution: input.monthlyContribution,
+      targetDate: input.targetDate,
+      priority: input.priority,
+      createdAt: new Date().toISOString().slice(0, 10),
+      notes: input.notes,
+    };
+
+    this.store().goals.push(goal);
+    await this.recordAudit(access, {
+      action: 'goal.create',
+      targetType: 'goal',
+      targetId: goal.id,
+      targetLabel: goal.label,
+    });
+    return goal;
+  }
+
+  private requireGoal(access: AccessContext, goalId: string): Goal {
+    const goal = this.store().goals.find(
+      (item) => item.id === goalId && item.firmId === access.firmId,
+    );
+    assert(Boolean(goal), 'Objectif introuvable.');
+    this.requireClient(access, (goal as Goal).clientId);
+    return goal as Goal;
+  }
+
+  async updateGoal(access: AccessContext, goalId: string, input: NewGoalInput): Promise<Goal> {
+    assert(canWriteClientData(access), 'Action réservée au cabinet.');
+    const goal = this.requireGoal(access, goalId);
+
+    goal.kind = input.kind;
+    goal.label = input.label;
+    goal.targetAmount = input.targetAmount;
+    goal.currentAmount = input.currentAmount;
+    goal.monthlyContribution = input.monthlyContribution;
+    goal.targetDate = input.targetDate;
+    goal.priority = input.priority;
+    goal.notes = input.notes;
+
+    await this.recordAudit(access, {
+      action: 'goal.update',
+      targetType: 'goal',
+      targetId: goal.id,
+      targetLabel: goal.label,
+    });
+    return goal;
+  }
+
+  async deleteGoal(access: AccessContext, goalId: string): Promise<void> {
+    assert(canWriteClientData(access), 'Action réservée au cabinet.');
+    const goal = this.requireGoal(access, goalId);
+    const store = this.store();
+    store.goals = store.goals.filter((item) => item.id !== goalId);
+
+    await this.recordAudit(access, {
+      action: 'goal.delete',
+      targetType: 'goal',
+      targetId: goalId,
+      targetLabel: goal.label,
     });
   }
 

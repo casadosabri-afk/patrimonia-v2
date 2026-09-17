@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState, useTransition } from 'react';
+import { useActionState, useEffect, useState, useTransition } from 'react';
 import { Download, FileText, Trash2, Upload } from 'lucide-react';
 import type { StoredDocument } from '@/types';
 import {
@@ -34,7 +34,9 @@ export function DocumentsSection({
   const [state, formAction, pending] = useActionState(uploadDocumentAction, EMPTY_ACTION_STATE);
   const [isPending, startTransition] = useTransition();
 
-  if (state.success && open) setOpen(false);
+  useEffect(() => {
+    if (state.success) setOpen(false);
+  }, [state.success]);
 
   const visible = filter === 'tous' ? documents : documents.filter((item) => item.kind === filter);
 

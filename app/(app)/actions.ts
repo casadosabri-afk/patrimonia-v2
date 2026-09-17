@@ -149,6 +149,96 @@ export async function sendMessageAction(
   return { error: null, success: true };
 }
 
+/* ----------------------------------------------------------- Objectifs -- */
+
+const goalSchema = z.object({
+  clientId: z.string().min(1),
+  kind: z.enum([
+    'retraite',
+    'achat_immobilier',
+    'transmission',
+    'etudes_enfants',
+    'creation_entreprise',
+    'voyage',
+    'epargne_precaution',
+    'autre',
+  ]),
+  label: z.string().trim().min(1, 'Un intitulé est requis').max(160),
+  targetAmount: z.coerce.number().min(1, 'Le montant cible doit être positif').max(1_000_000_000),
+  currentAmount: z.coerce.number().min(0).max(1_000_000_000),
+  monthlyContribution: z.coerce.number().min(0).max(1_000_000),
+  targetDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Une date cible est requise'),
+  priority: z.enum(['haute', 'moyenne', 'basse']),
+  notes: z.string().trim().max(1000).nullable().default(null),
+});
+
+function parseGoalForm(formData: FormData) {
+  return goalSchema.safeParse({
+    clientId: formData.get('clientId'),
+    kind: formData.get('kind'),
+    label: formData.get('label'),
+    targetAmount: formData.get('targetAmount'),
+    currentAmount: formData.get('currentAmount'),
+    monthlyContribution: formData.get('monthlyContribution'),
+    targetDate: formData.get('targetDate'),
+    priority: formData.get('priority'),
+    notes: (formData.get('notes') as string | null)?.trim() || null,
+  });
+}
+
+export async function createGoalAction(
+  _state: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { access } = await requireAccess('advisor', 'admin');
+  const parsed = parseGoalForm(formData);
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Formulaire invalide.', success: false };
+  }
+
+  try {
+    await getRepository().createGoal(access, parsed.data);
+  } catch (error) {
+    return failure(error, "La création de l'objectif a échoué.");
+  }
+
+  revalidatePath(`/clients/${parsed.data.clientId}`);
+  revalidatePath('/simulateur');
+  return { error: null, success: true, message: 'Objectif créé.' };
+}
+
+export async function updateGoalAction(
+  goalId: string,
+  _state: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const { access } = await requireAccess('advisor', 'admin');
+  const parsed = parseGoalForm(formData);
+
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? 'Formulaire invalide.', success: false };
+  }
+
+  try {
+    await getRepository().updateGoal(access, goalId, parsed.data);
+  } catch (error) {
+    return failure(error, 'La mise à jour a échoué.');
+  }
+
+  revalidatePath(`/clients/${parsed.data.clientId}`);
+  revalidatePath('/simulateur');
+  return { error: null, success: true, message: 'Objectif mis à jour.' };
+}
+
+export async function deleteGoalAction(goalId: string, clientId: string): Promise<void> {
+  const { access } = await requireAccess('advisor', 'admin');
+  await getRepository().deleteGoal(access, goalId);
+
+  revalidatePath(`/clients/${clientId}`);
+  revalidatePath('/simulateur');
+}
+
 /* ------------------------------------------------------------- Alertes -- */
 
 const alertStatusSchema = z.enum(['ouverte', 'en_cours', 'traitee', 'ignoree']);

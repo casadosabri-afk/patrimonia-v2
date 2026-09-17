@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useState, useTransition } from 'react';
+import { useActionState, useEffect, useState, useTransition } from 'react';
 import { CheckCircle2, Circle, Mail, FileText, NotebookPen, Phone, Plus, Users } from 'lucide-react';
 import type { Interaction } from '@/types';
 import {
@@ -45,7 +45,11 @@ export function CrmSection({
   const [state, formAction, pending] = useActionState(addInteractionAction, EMPTY_ACTION_STATE);
   const [isPending, startTransition] = useTransition();
 
-  if (state.success && open) setOpen(false);
+  // La fermeture suit le succès de l'action : elle appartient à un effet,
+  // pas au rendu.
+  useEffect(() => {
+    if (state.success) setOpen(false);
+  }, [state.success]);
 
   const tasks = interactions.filter((item) => item.kind === 'tache' && item.status !== 'termine');
   const timeline = interactions.filter((item) => item.kind !== 'tache' || item.status === 'termine');

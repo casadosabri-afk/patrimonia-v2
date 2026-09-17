@@ -83,6 +83,10 @@ export interface Repository {
   createDocument(access: AccessContext, input: NewDocumentInput): Promise<StoredDocument>;
   deleteDocument(access: AccessContext, documentId: string): Promise<void>;
 
+  createGoal(access: AccessContext, input: NewGoalInput): Promise<Goal>;
+  updateGoal(access: AccessContext, goalId: string, input: NewGoalInput): Promise<Goal>;
+  deleteGoal(access: AccessContext, goalId: string): Promise<void>;
+
   createQrToken(access: AccessContext, clientId: string, scope: QrToken['scope'], ttlMinutes: number): Promise<QrToken>;
   consumeQrToken(token: string): Promise<QrToken | null>;
 
@@ -107,6 +111,18 @@ export interface NewClientInput {
   taxBracketRate: number;
   primaryAdvisorId: string;
   associateAdvisorIds: string[];
+  notes: string | null;
+}
+
+export interface NewGoalInput {
+  clientId: string;
+  kind: Goal['kind'];
+  label: string;
+  targetAmount: number;
+  currentAmount: number;
+  monthlyContribution: number;
+  targetDate: string;
+  priority: Goal['priority'];
   notes: string | null;
 }
 

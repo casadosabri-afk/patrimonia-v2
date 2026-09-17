@@ -257,7 +257,7 @@ export function ClientDetail(props: ClientDetailProps) {
           />
         ) : null}
 
-        {section === 'objectifs' ? <GoalsSection goals={props.goals} /> : null}
+        {section === 'objectifs' ? <GoalsSection clientId={client.id} goals={props.goals} /> : null}
 
         {section === 'risques' ? <InsightsSection insights={insights} /> : null}
 

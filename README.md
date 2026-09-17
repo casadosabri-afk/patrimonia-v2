@@ -167,11 +167,13 @@ Méthodes exposées : `getQuote`, `getQuotes`, `getHistoricalPrices`,
 Sans Supabase, PATRIMONIA utilise un entrepôt mémoire
 (`services/db/demoStore.ts`) amorcé au démarrage avec :
 
-- 2 cabinets, 7 comptes utilisateurs, 14 clients fictifs
-- plus de 50 lignes d'investissement sur des instruments réellement cotés
-- 15 biens immobiliers, 14 crédits, 26 objectifs
-- alertes générées par le moteur d'analyse, plus des alertes de cabinet
-- interactions CRM, rendez-vous passés et à venir, conversations, documents
+- 2 cabinets, 7 comptes utilisateurs, 15 clients fictifs
+- 71 lignes d'investissement, dont 69 sur des instruments réellement cotés
+- 20 biens immobiliers, 16 crédits, 29 objectifs
+- 50 alertes : celles produites par le moteur d'analyse, plus des alertes de
+  cabinet et des alertes administratives
+- 119 interactions CRM, 34 rendez-vous passés et à venir, 15 conversations,
+  35 messages et 47 documents
 
 Les mutations faites depuis l'interface (traitement d'une alerte, ajout d'une
 note, dépôt d'un document, envoi d'un message) sont appliquées et persistent
@@ -304,12 +306,13 @@ produit et d'une phrase expliquant le résultat.
 
 ## Tests
 
-La suite couvre les fonctions critiques : 89 tests répartis en 7 fichiers.
+La suite couvre les fonctions critiques : 91 tests répartis en 7 fichiers.
 
 - `auth.test.ts` — signature, altération et expiration des jetons de session
 - `permissions.test.ts` — matrice des droits par rôle
 - `tenant-isolation.test.ts` — cloisonnement entre cabinets, périmètre client,
-  confidentialité des alertes et des documents, usage unique des jetons QR
+  confidentialité des alertes et des documents, gestion des objectifs, usage
+  unique des jetons QR
 - `patrimony.test.ts` — valorisation, conversion de devises, consolidation,
   endettement, rendement locatif, historique
 - `intelligence.test.ts` — déclenchement des règles, structure et bornes du

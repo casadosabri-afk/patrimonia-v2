@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 import type { Client, UserAccount } from '@/types';
 import { Button, Field, Input, Select, Textarea } from '@/components/ui';
@@ -23,7 +23,10 @@ export function ClientForm({
 }) {
   const [state, formAction, pending] = useActionState(action, EMPTY_CLIENT_FORM_STATE);
 
-  if (state.success && onDone) onDone();
+  // Le parent est notifié après le rendu, jamais pendant.
+  useEffect(() => {
+    if (state.success) onDone?.();
+  }, [state.success, onDone]);
 
   const primary = client?.advisors.find((link) => link.primary)?.advisorId ?? advisors[0]?.id ?? '';
   const associates = client?.advisors.filter((link) => !link.primary).map((link) => link.advisorId) ?? [];
