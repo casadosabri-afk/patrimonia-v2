@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { ToastProvider } from '@/components/ui';
+import { PwaProvider } from '@/components/layout/PwaProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -45,7 +46,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-dvh bg-bg text-fg antialiased">
         <ThemeProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            {children}
+            <PwaProvider />
+          </ToastProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "seed:supabase": "node --experimental-strip-types scripts/seed-supabase.ts"
+    "seed:supabase": "node --experimental-strip-types --import ./scripts/register-loader.mjs scripts/seed-supabase.mts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
