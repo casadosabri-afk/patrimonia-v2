@@ -67,6 +67,26 @@ connexion. Le mot de passe est commun : **`patrimonia`**.
 Ces comptes n'existent que dans le jeu de démonstration et ne donnent accès à
 aucune donnée réelle.
 
+### Parcours de test en cinq minutes
+
+1. **Connexion conseiller** — cliquez sur « Thomas Martin » sur l'écran de
+   connexion, puis sur « Se connecter ». Le tableau de bord liste les points à
+   traiter du jour.
+2. **Fiche client** — ouvrez « Jean Dupont » depuis Clients. Parcourez les
+   onglets : la répartition est cliquable, le score de cohérence détaille ses
+   sept facteurs.
+3. **Investissement** — dans l'onglet Investissements, ouvrez une ligne. Changez
+   la plage du graphique, puis comparez le support au CAC 40.
+4. **Action** — depuis Alertes, commentez une alerte, créez-en une tâche, puis
+   marquez-la traitée. Retrouvez la tâche dans le CRM.
+5. **Rapport** — sur la fiche client, cliquez « Rapport patrimonial » : le PDF
+   se génère aux couleurs du cabinet.
+6. **Changement de rôle** — déconnectez-vous, reconnectez-vous en administrateur
+   puis en client pour voir les deux autres interfaces.
+
+Le bouton en haut à droite bascule entre mode clair et mode sombre. Réduisez la
+fenêtre sous 640 pixels pour voir la navigation mobile.
+
 ---
 
 ## Variables d'environnement
