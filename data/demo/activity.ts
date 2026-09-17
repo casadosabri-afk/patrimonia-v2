@@ -119,6 +119,8 @@ export function buildActivity(now: Date): ActivityDataset {
     // — Tâches à venir ------------------------------------------------------
     if (rng() > 0.35) {
       const dueInDays = Math.floor(1 + rng() * 14);
+      const createdDaysAgo = Math.floor(1 + rng() * 10);
+      const createdAt = new Date(now.getTime() - createdDaysAgo * 86400_000).toISOString();
       interactions.push({
         id: `${spec.id}-task-next`,
         firmId: spec.firmId,
@@ -128,9 +130,9 @@ export function buildActivity(now: Date): ActivityDataset {
         title: 'Préparer la prochaine revue patrimoniale',
         body: 'Rassembler les relevés récents et actualiser la synthèse avant l’échange.',
         status: 'a_faire',
-        occurredAt: now.toISOString(),
+        occurredAt: createdAt,
         dueAt: new Date(now.getTime() + dueInDays * 86400_000).toISOString(),
-        createdAt: now.toISOString(),
+        createdAt,
       });
     }
 

@@ -29,7 +29,8 @@ export function AllocationDonut({
   }
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+    <div className="@container/donut">
+      <div className="flex flex-col gap-4 @md/donut:flex-row @md/donut:items-center">
       <div className="relative mx-auto h-44 w-44 shrink-0">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -90,13 +91,14 @@ export function AllocationDonut({
               />
               <span className="min-w-0 flex-1 truncate text-xs text-fg-muted">{slice.label}</span>
               <span className="text-xs font-medium text-fg tabular">{formatPercent(slice.sharePct, 1)}</span>
-              <span className="hidden w-24 text-right text-xs text-fg-subtle tabular sm:block">
+              <span className="hidden w-24 shrink-0 text-right text-xs text-fg-subtle tabular @lg/donut:block">
                 {formatEuro(slice.value)}
               </span>
             </button>
           </li>
         ))}
       </ul>
+      </div>
     </div>
   );
 }

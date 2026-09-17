@@ -111,7 +111,7 @@ export async function buildOverview(record: ClientRecord, now = new Date()): Pro
       currentDebt: debtTotal,
       months: 13,
       annualDriftPct: 4.5,
-      volatility: 0.09,
+      volatility: 0.05,
       now,
     }),
   });
@@ -159,7 +159,13 @@ export async function getClientSummaries(
           alert.clientId === client.id && (alert.status === 'ouverte' || alert.status === 'en_cours'),
       ).length;
 
-      const lastInteraction = interactions.find((item) => item.clientId === client.id);
+      // « Dernier échange » désigne un contact avec le client, pas une note ou
+      // une tâche interne du conseiller.
+      const lastInteraction = interactions.find(
+        (item) =>
+          item.clientId === client.id &&
+          (item.kind === 'appel' || item.kind === 'email' || item.kind === 'rendez_vous'),
+      );
 
       return {
         client,

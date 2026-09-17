@@ -116,7 +116,7 @@ export default async function DashboardPage() {
             tone="accent"
           />
           <MetricCard
-            label="Alertes ouvertes"
+            label={user.role === 'admin' ? 'Alertes ouvertes' : 'Alertes sur vos clients'}
             value={`${openAlerts.length}`}
             sublabel={`${openAlerts.filter((alert) => alert.severity === 'critique' || alert.severity === 'eleve').length} prioritaire(s)`}
             icon={AlertTriangle}

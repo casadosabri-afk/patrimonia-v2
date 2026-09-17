@@ -97,7 +97,7 @@ export function ClientDetail(props: ClientDetailProps) {
     { value: 'immobilier', label: 'Immobilier', count: props.propertyMetrics.length },
     { value: 'dettes', label: 'Dettes', count: props.debtMetrics.length },
     { value: 'objectifs', label: 'Objectifs', count: props.goals.length },
-    { value: 'risques', label: 'Risques et opportunités', count: insights.length },
+    { value: 'risques', label: 'Analyse', count: insights.length },
     { value: 'documents', label: 'Documents', count: props.documents.length },
     { value: 'crm', label: 'CRM', count: props.interactions.length },
     { value: 'rendez-vous', label: 'Rendez-vous', count: props.appointments.length },

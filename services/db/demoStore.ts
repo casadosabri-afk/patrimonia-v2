@@ -107,7 +107,7 @@ function seedStore(): DemoStore {
         currentDebt: debtTotal,
         months: 13,
         annualDriftPct: 4.5,
-        volatility: 0.09,
+        volatility: 0.05,
         now,
       }),
     });

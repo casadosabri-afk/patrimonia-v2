@@ -30,7 +30,7 @@ const bucketConcentration: Rule = (context) => {
       ruleId: 'concentration-bucket',
       kind: 'risque',
       severity,
-      title: `Concentration ${BUCKET_LABELS[dominant.key].toLowerCase()} importante`,
+      title: `Concentration importante sur « ${dominant.label} »`,
       finding: `${formatPercent(dominant.sharePct, 0)} du patrimoine brut est exposé à la catégorie « ${dominant.label} ».`,
       explanation:
         "Lorsqu'une part majoritaire du patrimoine dépend d'une seule catégorie d'actifs, sa valeur suit les cycles de cette catégorie. Une baisse durable du secteur se répercute alors sur l'ensemble du patrimoine.",
