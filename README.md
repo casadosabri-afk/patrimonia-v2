@@ -36,9 +36,39 @@ pédagogique**, jamais comme un conseil en investissement réglementé.
 
 ---
 
-## Installation
+## Démarrage le plus simple
 
-Prérequis : **Node.js 20 ou supérieur** et npm.
+Un lanceur double-cliquable est fourni pour chaque système. Il vérifie
+Node.js, installe les dépendances, compile l'application, démarre le serveur
+et ouvre votre navigateur.
+
+| Système | Fichier à double-cliquer |
+| --- | --- |
+| macOS | `lancer-patrimonia.command` |
+| Windows | `lancer-patrimonia.bat` |
+| Linux | `lancer-patrimonia.sh` |
+
+Seul prérequis : **Node.js 20 ou supérieur**, à installer depuis
+[nodejs.org](https://nodejs.org) si ce n'est pas déjà fait.
+
+Le premier lancement prend environ une minute, le temps d'installer et de
+compiler. Les suivants démarrent en quelques secondes. Si le port 3000 est
+occupé, le lanceur en choisit un autre automatiquement. Un secret de session
+est généré sur votre machine au premier démarrage et enregistré dans
+`.env.local`, qui n'est jamais publié.
+
+Pour arrêter : `Ctrl+C` dans la fenêtre du lanceur, ou, sous Windows, fermeture
+de la fenêtre « PATRIMONIA - serveur ».
+
+> Sous macOS, le premier double-clic peut afficher un avertissement de sécurité
+> parce que le fichier vient d'internet. Faites alors un clic droit sur le
+> fichier puis « Ouvrir », et confirmez une fois.
+
+---
+
+## Installation manuelle
+
+Si vous préférez la ligne de commande :
 
 ```bash
 git clone <url-du-depot>
