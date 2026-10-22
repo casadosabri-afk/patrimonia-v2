@@ -1,23 +1,23 @@
-PATRIMONIA ERP — PROJET SCOLAIRE
+PATRIMONIA — SIMULATION SCOLAIRE
 
-OUVRIR LA MAQUETTE HTML SUR MAC, SANS NODE.JS
-1. Télécharge le ZIP de la branche de refonte et extrais-le.
+OUVRIR SUR MAC OU WINDOWS
+1. Télécharge le ZIP de la branche de refonte et décompresse-le.
 2. Ouvre le dossier prototype.
-3. Double-clique sur index.html. Si besoin, ouvre-le depuis Safari avec Fichier > Ouvrir le fichier.
-Cette page HTML autonome sert à présenter le design et les principaux écrans. Elle contient des données fictives et une connexion simulée. Elle ne se connecte pas à la base SQLite et ne représente pas l'ERP complet.
+3. Double-clique sur index.html. Sur Mac, si besoin : clic droit > Ouvrir avec > Safari.
+Aucune installation, aucun Node.js et aucune connexion Internet ne sont nécessaires.
 
-UTILISER L'ERP COMPLET SUR MAC
-L'ERP connecté à sa base locale nécessite Node.js 20 ou plus récent.
-1. Ouvre Terminal dans le dossier prototype.
-2. Lance npm install (première utilisation seulement).
-3. Lance npm start.
-4. Ouvre http://127.0.0.1:4173 dans Safari.
-5. Pour arrêter l'ERP, retourne dans Terminal et appuie sur Ctrl+C.
+COMPTES FICTIFS
+Administrateur — Sabri Casado
+E-mail : sabri.demo@patrimonia.test
+Mot de passe : Sabri2026!
 
-Le compte administrateur Sabri Casado est sabri@patrimonia.local. Au premier démarrage du serveur, le mot de passe aléatoire initial s'affiche une fois dans Terminal. Conserve-le; il pourra ensuite être modifié depuis l'application.
+Conseillère — Camille Durand
+E-mail : camille.demo@patrimonia.test
+Mot de passe : Camille2026!
 
-SOUS WINDOWS
-Lance LANCER-PATRIMONIA.bat. Node.js 20 ou plus récent doit être installé.
+La connexion est simulée dans la page. Sabri voit la vue administrateur. Camille voit un portefeuille limité à ses foyers fictifs. Les changements de tâches et les foyers ajoutés restent mémorisés dans le navigateur utilisé, grâce au stockage local. Ils ne sont envoyés à aucun serveur et ne sont pas synchronisés entre ordinateurs.
 
-DONNÉES
-L'ERP complet garde sa base SQLite et les documents localement sur l'ordinateur utilisé. Les appareils ne se synchronisent pas entre eux. Utilise uniquement les données fictives du projet scolaire.
+IMPORTANT
+Il s'agit d'une simulation pour un projet scolaire. Les noms, comptes, montants, placements et documents affichés sont fictifs. N'y saisis aucune information personnelle réelle.
+
+Le fichier prototype/web/index.html correspond à une ancienne version de développement avec serveur local. Pour la démonstration sur Mac, ouvre prototype/index.html.
