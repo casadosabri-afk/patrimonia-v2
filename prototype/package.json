@@ -1,0 +1,15 @@
+{
+  "name": "patrimonia-erp-local",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ERP local de démonstration pour cabinet de gestion de patrimoine",
+  "scripts": { "start": "node server.js", "dev": "node --watch server.js" },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "better-sqlite3": "^12.2.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "multer": "^2.0.2",
+    "pdfkit": "^0.17.2"
+  }
+}
