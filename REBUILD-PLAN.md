@@ -43,9 +43,13 @@ La récupération de cours passe par un fournisseur externe appelé côté serve
 - Stockage intégré à l’application dans la première version.
 - Synthèse patrimoniale PDF par foyer et export CSV des positions détaillées.
 
-## Architecture proposée
+## Format de livraison et architecture proposée
 
-- Interface : React, TypeScript et Vite.
+L’application sera livrée sous forme d’interface HTML accessible dans le navigateur, accompagnée d’un lanceur Windows. Elle doit rester consultable et modifiable comme un projet scolaire. L’interface compilée produit un fichier `index.html`.
+
+Un fichier HTML seul ne peut pas assurer une authentification réelle, des rôles protégés, un stockage SQLite partagé ou la protection d’une clé de fournisseur. Le lanceur démarrera donc un service local et ouvrira l’interface HTML dans le navigateur. Le même projet pourra être emballé en `.exe` ultérieurement si ce format devient nécessaire.
+
+- Interface : React, TypeScript et Vite, compilés en HTML/CSS/JavaScript.
 - Serveur : Node.js et Express pour l’authentification, les règles d’accès, les calculs et les échanges avec les fournisseurs de cours.
 - Données : SQLite locale, adaptée à une démonstration autonome et persistante.
 - Documents : répertoire de stockage privé local, servi uniquement après vérification des droits du dossier.
