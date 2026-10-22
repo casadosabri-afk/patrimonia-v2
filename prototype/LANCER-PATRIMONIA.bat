@@ -17,6 +17,17 @@ if not exist "node_modules" (
     exit /b 1
   )
 )
+start "PATRIMONIA ERP - serveur local" /min cmd /c "npm start"
+for /l %%i in (1,1,20) do (
+  powershell -NoProfile -Command "try { Invoke-WebRequest -UseBasicParsing http://127.0.0.1:4173/api/health -TimeoutSec 1 | Out-Null; exit 0 } catch { exit 1 }" >nul 2>nul
+  if not errorlevel 1 goto ready
+  timeout /t 1 /nobreak >nul
+)
+echo Le serveur n'a pas demarre. Verifie Node.js et les messages de la fenetre du serveur.
+pause
+exit /b 1
+:ready
 start "" http://127.0.0.1:4173
-call npm start
+echo PATRIMONIA est ouvert dans le navigateur.
+echo Pour arreter l'application, ferme la fenetre reduite "PATRIMONIA ERP - serveur local".
 endlocal

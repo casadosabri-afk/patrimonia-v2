@@ -277,11 +277,21 @@ app.put("/api/debts/:id", auth, (req,res)=>{
 app.delete("/api/debts/:id", auth, (req,res)=>{const d=db.prepare("SELECT * FROM debts WHERE id=?").get(Number(req.params.id));if(!d||!householdAllowed(req,d.household_id))return res.status(404).json({error:"Emprunt introuvable."});db.prepare("DELETE FROM debts WHERE id=?").run(d.id);res.json({ok:true});});
 
 function ensureReviewTask(householdId,date,advisorId) {
- const due=new Date(date+"T00:00:00"); if(Number.isNaN(due.valueOf())) return;
- due.setDate(due.getDate()-30); const dueDate=due.toISOString().slice(0,10);
- const exists=db.prepare("SELECT 1 FROM tasks WHERE household_id=? AND title='Préparer la revue patrimoniale' AND status!='done'").get(householdId);
- if(!exists) db.prepare("INSERT INTO tasks(household_id,assigned_to,title,description,due_date,priority,status) VALUES(?,?,?,?,?,?,?)").run(householdId,advisorId,"Préparer la revue patrimoniale","Tâche créée automatiquement 30 jours avant la date de revue.",dueDate,"normal","todo");
+ const reviewDay=Date.parse(date+"T00:00:00Z");
+ if(Number.isNaN(reviewDay)) return;
+ const today=new Date(); const todayDay=Date.UTC(today.getUTCFullYear(),today.getUTCMonth(),today.getUTCDate());
+ const daysRemaining=Math.floor((reviewDay-todayDay)/86400000);
+ if(daysRemaining>30) return;
+ const existing=db.prepare("SELECT id FROM tasks WHERE household_id=? AND title='Préparer la revue patrimoniale' AND status!='done' ORDER BY id DESC LIMIT 1").get(householdId);
+ if(existing) db.prepare("UPDATE tasks SET due_date=?,assigned_to=COALESCE(?,assigned_to) WHERE id=?").run(date,advisorId,existing.id);
+ else db.prepare("INSERT INTO tasks(household_id,assigned_to,title,description,due_date,priority,status) VALUES(?,?,?,?,?,?,?)").run(householdId,advisorId,"Préparer la revue patrimoniale","Tâche générée automatiquement à 30 jours de la revue.",date,"normal","todo");
 }
+function reconcileReviewTasks() {
+ const rows=db.prepare("SELECT id,review_date,advisor_id FROM households WHERE review_date IS NOT NULL AND review_date!=''").all();
+ for(const row of rows) ensureReviewTask(row.id,row.review_date,row.advisor_id);
+}
+reconcileReviewTasks();
+setInterval(reconcileReviewTasks,24*60*60*1000).unref();
 app.get("/api/tasks", auth, (req,res)=>{
  const scope=req.user.role==="advisor"?" AND (household_id IS NULL OR household_id IN (SELECT id FROM households WHERE advisor_id=?))":"";
  const args=req.user.role==="advisor"?[req.user.id]:[];
