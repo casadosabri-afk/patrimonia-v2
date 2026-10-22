@@ -109,6 +109,14 @@ function seed() {
  }
 }
 seed();
+// Provision Sabri's administrator account without publishing a reusable password.
+if (!db.prepare("SELECT id FROM users WHERE email=?").get("sabri@patrimonia.local")) {
+ const initialSabriPassword = crypto.randomBytes(18).toString("base64url");
+ db.prepare("INSERT INTO users(name,email,role,password_hash) VALUES(?,?,?,?)")
+  .run("Sabri Casado", "sabri@patrimonia.local", "admin", hashPassword(initialSabriPassword));
+ console.log("Compte administrateur Sabri Casado — identifiant: sabri@patrimonia.local");
+ console.log("Mot de passe initial à conserver: " + initialSabriPassword);
+}
 
 app.disable("x-powered-by");
 app.use(helmet({ contentSecurityPolicy: false }));

@@ -17,7 +17,7 @@ if not exist "node_modules" (
     exit /b 1
   )
 )
-start "PATRIMONIA ERP - serveur local" /min cmd /c "npm start"
+start "PATRIMONIA ERP - serveur local" cmd /c "npm start"
 for /l %%i in (1,1,20) do (
   powershell -NoProfile -Command "try { Invoke-WebRequest -UseBasicParsing http://127.0.0.1:4173/api/health -TimeoutSec 1 | Out-Null; exit 0 } catch { exit 1 }" >nul 2>nul
   if not errorlevel 1 goto ready

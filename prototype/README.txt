@@ -7,15 +7,20 @@ OUVRIR SOUS WINDOWS
 4. Au premier lancement, le programme installe ses composants puis ouvre http://127.0.0.1:4173.
 5. Pour arrêter le serveur, ferme la fenêtre noire ouverte par le fichier .bat.
 
-COMPTES DE DÉMONSTRATION
-Administrateur : admin@patrimonia.local
-Mot de passe initial : ChangeMe123!
-Conseillère : camille@patrimonia.local
+COMPTE ADMINISTRATEUR PERSONNEL
+Nom : Sabri Casado
+Identifiant : sabri@patrimonia.local
+Au premier démarrage de cette version, un mot de passe aléatoire unique est généré et affiché dans la fenêtre du serveur local. Conserve-le, puis connecte-toi avec cet identifiant. Tu peux ensuite le remplacer depuis le bouton « Mot de passe ».
+Le profil administrateur voit et peut gérer tous les foyers, les utilisateurs, les tâches, les rendez-vous, les documents et les exports.
+
+Comptes de démonstration :
+Administrateur de démonstration : admin@patrimonia.local / ChangeMe123!
+Conseillère : camille@patrimonia.local / Camille2026!
 Mot de passe : Camille2026!
 Deuxième conseillère : alex@patrimonia.local
 Mot de passe : Alex2026!
 
-Le mot de passe administrateur peut être défini avant le premier démarrage par la variable PATRIMONIA_ADMIN_PASSWORD. La fonction de changement de mot de passe est aussi disponible dans l'application.
+Le mot de passe initial de Sabri est créé localement et n'est jamais inscrit dans le dépôt. Le compte est aussi créé au prochain lancement si la base SQLite existe déjà.
 
 DONNÉES
 Les dossiers créés sont enregistrés sur cet ordinateur dans prototype/data/patrimonia.sqlite. Les PDF et images restent dans prototype/data/documents. Ces données ne sont ni envoyées à un serveur distant ni synchronisées entre ordinateurs. Utilise uniquement des données fictives pour le projet scolaire.
