@@ -258,13 +258,21 @@ app.post("/api/households/:householdId/assets", auth, requireHousehold, (req,res
  const data=clean(req.body,["member_id","category","name","institution","identifier","quantity","unit_price","value","valuation_date","source","notes"]);
  if(!data.name||!data.category||!data.valuation_date) return res.status(400).json({error:"Type, libellé et date de valorisation requis."});
  data.created_by=req.user.id; const id=insertFields("assets",["household_id","member_id","category","name","institution","identifier","quantity","unit_price","value","valuation_date","source","notes","created_by"],{household_id:req.householdId,...data});
+ db.prepare("INSERT INTO asset_valuations(asset_id,value,valuation_date,source,recorded_by) VALUES(?,?,?,?,?)").run(id,Number(data.value)||0,data.valuation_date,data.source||"Manuelle",req.user.id);
  res.status(201).json(db.prepare("SELECT * FROM assets WHERE id=?").get(id));
 });
 app.put("/api/assets/:id", auth, (req,res)=>{
  const a=db.prepare("SELECT * FROM assets WHERE id=?").get(Number(req.params.id)); if(!a||!householdAllowed(req,a.household_id)) return res.status(404).json({error:"Actif introuvable."});
  const data=clean(req.body,["member_id","category","name","institution","identifier","quantity","unit_price","value","valuation_date","source","notes"]); const e=Object.entries(data);
  if(e.length) db.prepare("UPDATE assets SET "+e.map(([k])=>k+"=?").join(",")+" WHERE id=?").run(...e.map(x=>x[1]),a.id);
- res.json(db.prepare("SELECT * FROM assets WHERE id=?").get(a.id));
+ const updated=db.prepare("SELECT * FROM assets WHERE id=?").get(a.id);
+ if(["value","valuation_date","source"].some(k=>data[k]!==undefined)) db.prepare("INSERT INTO asset_valuations(asset_id,value,valuation_date,source,recorded_by) VALUES(?,?,?,?,?)").run(a.id,Number(updated.value)||0,updated.valuation_date,updated.source,req.user.id);
+ res.json(updated);
+});
+app.get("/api/assets/:id/history", auth, (req,res)=>{
+ const a=db.prepare("SELECT id,household_id FROM assets WHERE id=?").get(Number(req.params.id));
+ if(!a||!householdAllowed(req,a.household_id))return res.status(404).json({error:"Actif introuvable."});
+ res.json(db.prepare("SELECT asset_valuations.*,users.name recorded_name FROM asset_valuations LEFT JOIN users ON users.id=asset_valuations.recorded_by WHERE asset_id=? ORDER BY valuation_date DESC,id DESC").all(a.id));
 });
 app.delete("/api/assets/:id", auth, (req,res)=>{
  const a=db.prepare("SELECT * FROM assets WHERE id=?").get(Number(req.params.id)); if(!a||!householdAllowed(req,a.household_id)) return res.status(404).json({error:"Actif introuvable."});
