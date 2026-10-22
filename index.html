@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PATRIMONIA ERP — Démonstration</title>
+<style>
+:root{--navy:#0c1c30;--navy2:#132943;--blue:#2476ee;--blue2:#eaf2ff;--ink:#14233b;--muted:#71809a;--line:#e7edf5;--bg:#f5f8fc;--white:#fff;--green:#0b9d68;--red:#e34c4c;--gold:#d8a925;--shadow:0 5px 18px #1a31500b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 Inter,Segoe UI,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0} .app{min-height:100vh;display:grid;grid-template-columns:238px 1fr}
+.sidebar{background:linear-gradient(180deg,var(--navy),#091727);color:#d9e5f5;padding:20px 12px;display:flex;flex-direction:column;gap:18px}.brand{display:flex;align-items:center;gap:10px;padding:0 9px 14px;border-bottom:1px solid #ffffff20;color:white;font-weight:750;font-size:18px;letter-spacing:.2px}.logo{width:34px;height:34px;border:2px solid var(--gold);border-radius:50% 50% 50% 8px;color:var(--gold);display:grid;place-items:center;font-size:23px}.brand small{font-size:10px;font-weight:600}.nav{display:grid;gap:5px}.nav button{background:transparent;color:#c4d0df;text-align:left;border-radius:10px;padding:11px 12px;display:flex;gap:11px;align-items:center}.nav button:hover,.nav button.active{background:#2476ee;color:#fff}.nav .ico{width:19px;text-align:center;font-size:16px}.nav .section{margin:8px 10px 2px;color:#8194ad;text-transform:uppercase;font-size:10px;letter-spacing:1.3px}.side-gri{margin-top:auto;border:1px solid #ffffff18;background:#12273d;border-radius:14px;padding:15px}.side-gri b{font-size:13px}.side-gri strong{font-size:27px}.side-gri small{color:#b8c8da}.gri-bar{height:5px;background:#263e55;border-radius:6px;margin:8px 0}.gri-bar span{display:block;height:100%;width:58%;background:linear-gradient(90deg,#e3b73e,#1bc48b);border-radius:6px}
+main{min-width:0}.topbar{height:66px;background:#ffffffdd;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;gap:15px;position:sticky;top:0;z-index:3;backdrop-filter:blur(10px)}.search{width:min(460px,50%);border:1px solid var(--line);border-radius:24px;padding:11px 15px;background:#fff;display:flex;gap:8px}.search input{border:0;outline:0;width:100%;min-width:0}.user{display:flex;align-items:center;gap:10px}.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#dceaff;color:#1b58a5;font-weight:800}.user small{display:block;color:var(--muted);font-size:11px}.content{padding:23px;max-width:1800px;margin:auto}.pagehead{display:flex;justify-content:space-between;align-items:start;gap:15px;margin-bottom:20px}.pagehead h1{font-size:26px;margin:0 0 4px;letter-spacing:-.6px}.sub{color:var(--muted)}.pill{background:#eaf0f8;border-radius:20px;padding:7px 12px;color:#4e607b;white-space:nowrap}.grid{display:grid;gap:13px}.kpis{grid-template-columns:repeat(5,minmax(0,1fr));margin-bottom:14px}.card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px;box-shadow:var(--shadow);min-width:0}.kpi{display:flex;gap:11px;align-items:center}.kpiicon{height:39px;width:39px;border-radius:10px;background:#edf4ff;color:var(--blue);display:grid;place-items:center;font-size:20px;flex-shrink:0}.kpi strong{font-size:21px;letter-spacing:-.5px;display:block}.kpi label{color:var(--muted);font-size:12px}.good{color:var(--green);font-weight:650}.bad{color:var(--red);font-weight:650}.layout-main{grid-template-columns:minmax(0,1.15fr) minmax(0,.9fr) 275px;align-items:start}.twocol{grid-template-columns:repeat(2,minmax(0,1fr))}.cardhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.cardhead h2{font-size:14px;margin:0}.link{color:var(--blue);background:transparent;padding:2px;font-size:12px}.select{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px;color:#52627b;font-size:12px}.donutwrap{display:flex;align-items:center;gap:18px}.donut{width:175px;height:175px;border-radius:50%;background:conic-gradient(#ffad4d 0 28.5%,#3b91f5 28.5% 50.9%,#4739b5 50.9% 69.6%,#8264ed 69.6% 79.2%,#6978ed 79.2% 86%,#5e9d99 86% 92.1%,#e9bf38 92.1% 95.3%,#273d72 95.3% 97.7%,#aab5c6 97.7% 100%);display:grid;place-items:center;flex-shrink:0}.donut:after{content:"186,4 M€\A Patrimoine";white-space:pre;text-align:center;background:white;width:112px;height:112px;border-radius:50%;display:grid;place-content:center;font-weight:800;font-size:17px;line-height:1.7}.legend{display:grid;gap:9px;flex:1;min-width:0}.legendrow{display:grid;grid-template-columns:9px minmax(0,1fr) auto;gap:7px;align-items:center;font-size:11px}.dot{width:8px;height:8px;border-radius:50%}.legendrow span:nth-child(2){color:#4b5b73}.legendrow b{font-weight:650;white-space:nowrap}.chart{width:100%;height:190px;display:block}.chart text{font-size:10px;fill:#71809a}.chart .gridline{stroke:#e8eef6;stroke-width:1}.chart .line{stroke:#2879ee;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}.chart .area{fill:url(#area)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.metric{background:#f7f9fc;border:1px solid #edf1f7;border-radius:9px;padding:9px;text-align:center}.metric b{display:block;color:var(--green);font-size:16px}.metric small{color:var(--muted);font-size:10px}.rightcol{display:grid;gap:13px}.list{display:grid}.listitem{padding:11px 0;border-bottom:1px solid #eef2f7;display:flex;gap:9px;align-items:flex-start}.listitem:last-child{border:0;padding-bottom:0}.time{font-size:11px;font-weight:750;min-width:37px;color:#2d6fdb}.listitem b{font-size:12px;display:block}.listitem small{font-size:11px;color:var(--muted)}.tag{font-size:10px;border-radius:6px;padding:4px 6px;background:#fff0ef;color:#d94848;white-space:nowrap}.taskcheck{accent-color:var(--blue);margin-top:3px}.clients{display:grid;gap:10px}.clientrow{display:grid;grid-template-columns:22px 28px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:11px}.rank{background:#edf2fa;border-radius:50%;width:20px;height:20px;display:grid;place-items:center;font-weight:700}.smallavatar{width:27px;height:27px;border-radius:50%;background:#dbe8fb;display:grid;place-items:center;color:#2259a0;font-weight:750}.clientrow strong{font-size:11px}.bar{height:5px;background:#edf1f6;border-radius:5px;margin-top:4px}.bar span{height:100%;display:block;background:#2d7df0;border-radius:5px}.mapmock{height:178px;border-radius:10px;background:linear-gradient(135deg,#d8eaf0,#edf3e6);position:relative;overflow:hidden;background-image:linear-gradient(30deg,transparent 45%,#ffffffa6 46%,#ffffffa6 48%,transparent 49%),linear-gradient(120deg,transparent 42%,#fff9 43%,#fff9 45%,transparent 46%),linear-gradient(70deg,transparent 60%,#fff9 61%,#fff9 63%,transparent 64%)}.mapmock:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(12deg,transparent 0 34px,#ffffff75 35px 37px),repeating-linear-gradient(95deg,transparent 0 50px,#ffffff70 51px 53px)}.pin{position:absolute;border:2px solid white;border-radius:50%;width:34px;height:34px;display:grid;place-items:center;color:white;font-weight:800;box-shadow:0 2px 7px #0002}.pin.p1{left:18%;top:53%;background:#17a979}.pin.p2{left:47%;top:29%;background:#f2b82c}.pin.p3{left:69%;top:58%;background:#2677ef}.pin.p4{left:78%;top:18%;background:#e64c4c}.propertylegend{display:grid;gap:8px}.propertylegend div{display:flex;justify-content:space-between;gap:8px;font-size:11px}.propertylegend small{color:var(--muted)}.bottomgrid{grid-template-columns:1.15fr .85fr 1fr;margin-top:13px}.bars{height:145px;display:flex;align-items:end;gap:12px;padding:12px 5px 0;border-bottom:1px solid var(--line)}.barcol{flex:1;text-align:center;min-width:0}.barcol .rect{max-width:36px;margin:auto;background:linear-gradient(180deg,#2fc68b,#16a66e);border-radius:5px 5px 0 0}.barcol b{display:block;color:var(--green);font-size:10px;margin-bottom:5px}.barcol small{font-size:9px;color:var(--muted);display:block;margin-top:7px}.simrow{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #eef2f7;font-size:11px}.simrow:last-child{border:0}.ai-suggestions{display:grid;gap:6px}.ai-suggestions button{background:#f0f5ff;color:#315b9a;border-radius:7px;text-align:left;padding:8px;font-size:11px}.aiinput{display:flex;gap:5px;margin-top:9px}.aiinput input{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;padding:9px}.primary{background:var(--blue);color:white;border-radius:8px;padding:9px 12px}.primary:hover{background:#165fce}.page{display:none}.page.active{display:block}.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;font-size:12px;white-space:nowrap}th,td{padding:12px 10px;border-bottom:1px solid #edf1f6;text-align:left}th{color:var(--muted);font-weight:650;background:#f9fbfd}tbody tr:hover{background:#f8fbff}.badge{border-radius:12px;background:#edf5ff;color:#2d6fdb;padding:4px 7px;font-size:10px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff}.field textarea{min-height:80px}.modalback{position:fixed;inset:0;background:#06132677;z-index:10;display:none;align-items:center;justify-content:center;padding:15px}.modalback.show{display:flex}.modal{width:min(550px,100%);background:white;border-radius:16px;padding:22px;box-shadow:0 20px 80px #0003}.modal h2{margin-top:0}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.secondary{background:#edf1f7;color:#41536e;border-radius:8px;padding:9px 12px}.notice{background:#fff8e5;border:1px solid #f3df9d;padding:10px 12px;border-radius:8px;color:#775b13;font-size:12px;margin-bottom:13px}.toast{position:fixed;bottom:20px;right:20px;background:#10243c;color:white;padding:12px 17px;border-radius:10px;box-shadow:var(--shadow);display:none;z-index:20}.mobilemenu{display:none}
+@media(max-width:1250px){.layout-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.rightcol{grid-column:1/-1;grid-template-columns:repeat(3,minmax(0,1fr))}.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.bottomgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.bottomgrid .card:last-child{grid-column:1/-1}}
+@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{position:fixed;left:-250px;top:0;bottom:0;width:238px;z-index:8;transition:left .2s}.sidebar.open{left:0}.topbar{padding:0 13px}.mobilemenu{display:block;background:#eaf2ff;border-radius:8px;padding:8px}.search{width:55%}.user div:not(.avatar){display:none}.content{padding:14px}.pagehead h1{font-size:22px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.layout-main,.twocol,.bottomgrid{grid-template-columns:1fr}.rightcol{grid-column:auto;grid-template-columns:1fr}.bottomgrid .card:last-child{grid-column:auto}.donutwrap{flex-wrap:wrap}.donut{width:150px;height:150px}.donut:after{width:95px;height:95px;font-size:15px}.legend{min-width:180px}.formgrid{grid-template-columns:1fr}}
+@media(max-width:440px){.kpis{grid-template-columns:1fr}.kpi strong{font-size:19px}.search{width:60%}.pill{font-size:11px}.pagehead{flex-direction:column}.donutwrap{justify-content:center}}
+</style>
+
+<style>
+:root{color-scheme:dark;--navy:#111827;--navy2:#182235;--blue:#6d9eff;--blue2:#1b2a42;--ink:#e7edf7;--muted:#98a6bc;--line:#2a3548;--bg:#0b1120;--white:#151e2e;--green:#42c99a;--red:#ff7777;--gold:#d9b45b;--shadow:0 8px 24px #0002}
+body{background:var(--bg);color:var(--ink)}
+.sidebar{background:#0b1220}
+main,.content{background:var(--bg)}
+.topbar{background:#101827ee;border-color:var(--line)}
+.search,.card,.modal,.field input,.field select,.field textarea,.select,.aiinput input{background:#151e2e;color:var(--ink);border-color:var(--line)}
+.card{box-shadow:none;border-radius:10px;padding:15px}
+.donut:after{background:#151e2e;color:var(--ink)}
+.legendrow span:nth-child(2),.secondary{color:#c0cbda}
+.metric,.rank,.pill,.secondary{background:#202b3e;border-color:#2a3548;color:#cbd5e3}
+th{background:#182235;color:#a9b7cc}
+td,th{border-color:#2a3548}
+tbody tr:hover{background:#1b2638}
+.field label{color:#a7b5ca}
+.field input::placeholder,.search input::placeholder{color:#8291a8}
+.search input{background:transparent;color:var(--ink)}
+.avatar,.smallavatar{background:#263b5c;color:#bcd4ff}
+.badge{background:#1d3150;color:#a9c7ff}
+.notice{background:#2c2719;border-color:#594b27;color:#f0d68a}
+.tag{background:#3b2229;color:#ffaaaa}
+.ai-suggestions button{background:#1d2b42;color:#bdd3ff}
+.chart .gridline{stroke:#2a3548}
+.chart text{fill:#98a6bc}
+.listitem,.simrow{border-color:#2a3548}
+.bar,.gri-bar{background:#2a3548}
+.modalback{background:#020617bb}
+@media(min-width:1100px){.content{padding:22px 26px}.kpis{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.layout-main{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr) 250px;gap:14px}.bottomgrid{grid-template-columns:1fr 1fr;gap:14px}}
+</style>
+
+<style id="patrimonia-polish">
+:root{--radius-card:16px;--shadow:0 8px 28px rgba(2,10,25,.12)}
+body{letter-spacing:.005em}
+.sidebar{padding:22px 13px;gap:20px}
+.brand{padding-bottom:18px;letter-spacing:.35px}
+.nav{gap:4px}.nav button{padding:10px 12px;border-radius:9px;transition:background .15s ease,transform .15s ease}.nav button:hover{transform:translateX(2px)}
+.topbar{height:72px;padding:0 28px;gap:18px}.search{border-radius:12px;max-width:490px;box-shadow:inset 0 1px 1px #00000006}.content{padding:26px 28px}.pagehead{margin-bottom:22px}.pagehead h1{font-size:28px;letter-spacing:-.9px}.card{border-radius:var(--radius-card);padding:18px;transition:border-color .15s ease}.cardhead{margin-bottom:16px}.kpi strong{font-size:23px}.kpiicon{border-radius:12px}.theme-toggle{border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:10px;padding:8px 11px;font-size:12px;font-weight:650;white-space:nowrap}.theme-toggle:hover{border-color:var(--blue)}
+button.primary{border-radius:10px;padding:10px 14px;font-weight:650;box-shadow:0 3px 9px #2476ee20}button.primary:hover{filter:brightness(1.06);transform:translateY(-1px)}
+input,select,textarea{transition:border-color .15s ease,box-shadow .15s ease}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)!important;box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 16%,transparent)}
+table{border-collapse:separate;border-spacing:0}th:first-child{border-top-left-radius:8px}th:last-child{border-top-right-radius:8px}td,th{padding:11px 12px}
+/* Light theme */
+:root[data-theme="light"]{color-scheme:light;--navy:#14233b;--navy2:#203753;--blue:#2868d7;--blue2:#eaf2ff;--ink:#1b2940;--muted:#71809a;--line:#e3e9f2;--bg:#f3f6fb;--white:#fff;--green:#0b9467;--red:#d94848;--gold:#c69a2d;--shadow:0 8px 26px rgba(21,43,77,.055)}
+:root[data-theme="light"] body,:root[data-theme="light"] main,:root[data-theme="light"] .content{background:var(--bg);color:var(--ink)}
+:root[data-theme="light"] .sidebar{background:linear-gradient(180deg,#14233b,#0e1b2d)}
+:root[data-theme="light"] .topbar{background:#ffffffed;border-color:var(--line)}
+:root[data-theme="light"] .search,:root[data-theme="light"] .card,:root[data-theme="light"] .modal,:root[data-theme="light"] .field input,:root[data-theme="light"] .field select,:root[data-theme="light"] .field textarea,:root[data-theme="light"] .select,:root[data-theme="light"] .aiinput input{background:#fff;color:var(--ink);border-color:var(--line)}
+:root[data-theme="light"] .card{box-shadow:var(--shadow)}
+:root[data-theme="light"] .donut:after{background:#fff;color:var(--ink)}
+:root[data-theme="light"] .legendrow span:nth-child(2),:root[data-theme="light"] .secondary{color:#41536e}
+:root[data-theme="light"] .metric,:root[data-theme="light"] .rank,:root[data-theme="light"] .pill,:root[data-theme="light"] .secondary{background:#edf2f8;border-color:var(--line);color:#4d5e78}
+:root[data-theme="light"] th{background:#f0f4fa;color:#61718a}
+:root[data-theme="light"] td,:root[data-theme="light"] th{border-color:var(--line)}
+:root[data-theme="light"] tbody tr:hover{background:#f6f9fd}
+:root[data-theme="light"] .field label{color:#64748b}
+:root[data-theme="light"] .field input::placeholder,:root[data-theme="light"] .search input::placeholder{color:#8a97aa}
+:root[data-theme="light"] .search input{background:transparent;color:var(--ink)}
+:root[data-theme="light"] .avatar,:root[data-theme="light"] .smallavatar{background:#dceaff;color:#1b58a5}
+:root[data-theme="light"] .badge{background:#e8f0ff;color:#2b5eb0}
+:root[data-theme="light"] .notice{background:#fff8e5;border-color:#f3df9d;color:#775b13}
+:root[data-theme="light"] .tag{background:#fde9eb;color:#b52d3a}
+:root[data-theme="light"] .ai-suggestions button{background:#edf4ff;color:#315b9a}
+:root[data-theme="light"] .chart .gridline{stroke:#e3e9f2}
+:root[data-theme="light"] .chart text{fill:#71809a}
+:root[data-theme="light"] .listitem,:root[data-theme="light"] .simrow{border-color:var(--line)}
+:root[data-theme="light"] .bar,:root[data-theme="light"] .gri-bar{background:#e4eaf2}
+:root[data-theme="light"] .modalback{background:#10203c66}
+@media(max-width:850px){.topbar{padding:0 12px}.content{padding:15px}.theme-toggle{padding:7px 8px;font-size:11px}.user{gap:6px}}
+</style>
+
+
+<style id="home-one-screen-only">
+/* Only the Accueil page is arranged to fit one desktop viewport. Sidebar and other pages are unchanged. */
+@media (min-width:1000px) {
+  #page-home { min-height:calc(100vh - 72px); box-sizing:border-box; overflow:hidden; }
+  #page-home .pagehead { margin-bottom:12px; }
+  #page-home .kpis { grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin-bottom:12px; }
+  #page-home .kpi { padding:12px; min-width:0; gap:9px; }
+  #page-home .kpiicon { width:34px; height:34px; flex:0 0 34px; }
+  #page-home .kpi strong { font-size:18px; }
+  #page-home .layout-main {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(215px,.72fr);
+    gap:12px;
+    align-items:stretch;
+  }
+  #page-home .layout-main > .card { min-width:0; }
+  #page-home .donut { width:145px; height:145px; }
+  #page-home .donut:after { width:94px; height:94px; }
+  #page-home .chart { height:170px; }
+  #page-home .rightcol { display:block; min-width:0; }
+  #page-home .rightcol .card { height:100%; box-sizing:border-box; }
+  #page-home .rightcol .listitem { padding:10px 0; }
+}
+@media (min-width:1000px) and (max-height:800px) {
+  #page-home .pagehead { margin-bottom:8px; }
+  #page-home .kpis { gap:8px; margin-bottom:9px; }
+  #page-home .kpi { padding:9px; }
+  #page-home .kpiicon { width:29px; height:29px; flex-basis:29px; }
+  #page-home .layout-main { gap:9px; }
+  #page-home .card { padding:11px; }
+  #page-home .donut { width:115px; height:115px; }
+  #page-home .donut:after { width:75px; height:75px; }
+  #page-home .chart { height:125px; }
+  #page-home .metrics { margin-top:5px; }
+}
+</style>
+
+
+<style id="home-no-global-scroll">
+/* Accueil uniquement : verrouille la page dans la fenêtre, sans changer le design ni les dimensions des composants. */
+@supports (height: 100dvh) {
+  body:has(#page-home.active) { height:100dvh; overflow:hidden; }
+  .app:has(#page-home.active) { height:100dvh; min-height:0; overflow:hidden; }
+  .app:has(#page-home.active) main { height:100dvh; min-height:0; overflow:hidden; display:flex; flex-direction:column; }
+  .app:has(#page-home.active) .topbar { flex:0 0 66px; box-sizing:border-box; }
+  .app:has(#page-home.active) .content { flex:1 1 auto; min-height:0; overflow:hidden; box-sizing:border-box; }
+  .app:has(#page-home.active) #page-home.active { min-height:0; height:100%; overflow:hidden; }
+}
+@supports not (height: 100dvh) {
+  body:has(#page-home.active) { height:100vh; overflow:hidden; }
+  .app:has(#page-home.active) { height:100vh; min-height:0; overflow:hidden; }
+  .app:has(#page-home.active) main { height:100vh; min-height:0; overflow:hidden; display:flex; flex-direction:column; }
+  .app:has(#page-home.active) .topbar { flex:0 0 66px; box-sizing:border-box; }
+  .app:has(#page-home.active) .content { flex:1 1 auto; min-height:0; overflow:hidden; box-sizing:border-box; }
+  .app:has(#page-home.active) #page-home.active { min-height:0; height:100%; overflow:hidden; }
+}
+</style>
+
+
+<style id="account-and-appointment-enhancements">
+.brand:focus-visible { outline:2px solid var(--blue); outline-offset:4px; border-radius:8px; }
+.meeting-status { display:block; color:var(--muted); font-size:10px; margin-top:3px; }
+.meeting-reply { flex:0 0 auto; }
+.account-backdrop { position:fixed; inset:0; z-index:30; background:#050b16b8; display:none; align-items:center; justify-content:center; padding:18px; }
+.account-backdrop.open { display:flex; }
+.account-modal { width:min(460px,100%); max-height:90vh; overflow:auto; border:1px solid var(--line); border-radius:18px; background:var(--white); color:var(--ink); padding:22px; box-shadow:0 24px 80px #0005; }
+.account-modal h2 { margin:0 0 6px; }
+.account-modal .field { margin:12px 0; }
+.account-modal .field input,.account-modal .field select { width:100%; box-sizing:border-box; }
+.account-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.account-hint { background:var(--blue2); border-radius:10px; padding:10px 12px; color:var(--ink); font-size:12px; line-height:1.5; }
+.account-choice { border:1px solid var(--line); border-radius:10px; padding:10px; margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+@media (max-width:600px) { .account-modal { padding:16px; } }
+</style>
+
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand" id="homeLogo" role="button" tabindex="0" title="Retour à l’accueil" style="cursor:pointer"><div class="logo">ℙ</div><div>PATRIMONIA <small>ERP</small></div></div>
+  <nav class="nav" id="nav">
+    <button class="active" data-page="home"><span class="ico">⌂</span>Accueil</button>
+    <button data-page="clients"><span class="ico">♙</span>Clients</button>
+    <button data-page="placements"><span class="ico">↗</span>Placements</button>
+    <button data-page="risks"><span class="ico">◷</span>Analyses & risques</button>
+    <button data-page="simulations"><span class="ico">♧</span>Simulations</button>
+    <button data-page="realestate"><span class="ico">⌂</span>Patrimoine immobilier</button>
+    <button data-page="assistant"><span class="ico">✦</span>Assistant IA</button>
+    <div class="section">Organisation</div>
+    <button data-page="appointments"><span class="ico">▦</span>Rendez-vous</button>
+    <button data-page="tasks"><span class="ico">☑</span>Tâches</button>
+    <button data-page="messages"><span class="ico">✉</span>Messagerie <span class="tag">3</span></button>
+    <button data-page="documents"><span class="ico">▤</span>Documents</button>
+    <button data-page="reports"><span class="ico">▧</span>Rapports PDF</button>
+    <div class="section">Configuration</div>
+    <button data-page="settings"><span class="ico">⚙</span>Paramètres</button>
+    <button data-page="profile"><span class="ico">◉</span>Mon espace</button>
+  </nav>
+  <div class="side-gri"><b>Gold Risk Index</b><div style="display:flex;align-items:baseline;gap:6px;margin-top:8px"><strong>58</strong><small>/ 100</small></div><div class="gri-bar"><span></span></div><small>◈ Risque modéré · données fictives</small></div>
+</aside>
+<main>
+<header class="topbar"><button class="mobilemenu" id="mobilemenu">☰</button><div class="search">⌕ <input id="globalSearch" placeholder="Rechercher un client, un actif, un document…"></div><div class="user"><button class="theme-toggle" id="themeToggle" type="button" title="Changer le thème">☀️ Clair</button><button class="link" id="notifyBtn" title="Notifications">♧ <span class="tag">5</span></button><div class="avatar" id="userAvatar">SC</div><div><b id="userDisplayName">Sabri Casado</b><small id="userDisplayRole">Conseiller en gestion de patrimoine</small></div><button class="link" data-goto="profile">⌄</button></div></header>
+<div class="content">
+<section class="page active" id="page-home">
+ <div class="pagehead"><div><h1 id="welcomeTitle">Bonjour Sabri</h1><div class="sub">Voici un aperçu global de votre cabinet aujourd’hui.</div></div><div class="pill" id="today">Démonstration · données fictives</div></div>
+ <div class="grid kpis">
+  <div class="card kpi"><div class="kpiicon">♙</div><div><strong>132</strong><label>Clients</label><div class="good">+3 ce mois-ci</div></div></div>
+  <div class="card kpi"><div class="kpiicon">◉</div><div><strong>186,4 M€</strong><label>Patrimoine total</label><div class="good">+2,8 %</div></div></div>
+  <div class="card kpi"><div class="kpiicon">▥</div><div><strong class="good">+5,6 %</strong><label>Performance moyenne</label><small>1 an (pondérée)</small></div></div>
+  <div class="card kpi"><div class="kpiicon" style="background:#fff0ef;color:#e34c4c">♢</div><div><strong>12</strong><label>Alertes actives</label><div class="bad">3 critiques</div></div></div>
+  <div class="card kpi"><div class="kpiicon">▦</div><div><strong>5</strong><label>Rendez-vous</label><small>aujourd’hui</small></div></div>
+ </div>
+ <div class="grid layout-main">
+  <div class="card"><div class="cardhead"><h2>Répartition du patrimoine</h2><select class="select" id="allocationFilter"><option>Par classe d’actifs</option><option>Par conseiller</option><option>Par enveloppe</option></select></div><div class="donutwrap"><div class="donut"></div><div class="legend" id="legend"></div></div></div>
+  <div class="card"><div class="cardhead"><h2>Évolution du patrimoine du cabinet</h2><select class="select" id="period"><option>3 ans</option><option>1 an</option><option>6 mois</option></select></div><svg class="chart" viewBox="0 0 440 210" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2879ee" stop-opacity=".25"/><stop offset="1" stop-color="#2879ee" stop-opacity="0"/></linearGradient></defs><g class="gridline"><path d="M45 25H425 M45 65H425 M45 105H425 M45 145H425 M45 185H425"/></g><g><text x="2" y="29">200 M€</text><text x="7" y="69">150 M€</text><text x="7" y="109">100 M€</text><text x="17" y="149">50 M€</text><text x="30" y="189">0</text><text x="45" y="205">2022</text><text x="145" y="205">2023</text><text x="250" y="205">2024</text><text x="360" y="205">2025</text></g><path class="area" d="M45 164 L65 151 L84 157 L105 132 L126 138 L145 117 L165 123 L185 102 L205 110 L225 91 L245 98 L265 76 L285 82 L305 60 L325 71 L345 50 L365 59 L385 39 L405 43 L425 28 L425 185 L45 185Z"/><path class="line" d="M45 164 L65 151 L84 157 L105 132 L126 138 L145 117 L165 123 L185 102 L205 110 L225 91 L245 98 L265 76 L285 82 L305 60 L325 71 L345 50 L365 59 L385 39 L405 43 L425 28"/></svg><div class="metrics"><div class="metric"><b>+18,4 %</b><small>Depuis 3 ans</small></div><div class="metric"><b>+2,8 %</b><small>Sur 1 an</small></div><div class="metric"><b>+0,9 %</b><small>Sur 3 mois</small></div></div></div>
+  <div class="rightcol">
+   <div class="card"><div class="cardhead"><h2>Mes rendez-vous</h2><button class="link" data-goto="appointments">Voir tout</button></div><div class="list" id="homeAppointments"></div></div>
+  </div>
+ </div>
+</section>
+<section class="page" id="page-clients">
+ <div class="pagehead"><div><h1>Clients</h1><div class="sub">Gérez les dossiers patrimoniaux et consultez leurs placements détaillés.</div></div><button class="primary" id="addClient">＋ Nouveau client</button></div>
+ <div class="notice">Données fictives de démonstration. Ne saisissez pas de données confidentielles dans cette version locale.</div>
+ <div class="card"><div class="cardhead"><h2>Portefeuille clients</h2><span class="badge" id="clientCount">6 clients de démonstration</span></div><div class="tablewrap"><table><thead><tr><th>Client</th><th>Conseiller</th><th>Patrimoine</th><th>Profil</th><th>Performance</th><th>Alertes</th><th></th></tr></thead><tbody id="clientsTable"></tbody></table></div></div>
+</section>
+<section class="page" id="page-placements">
+ <div class="pagehead"><div><h1>Placements</h1><div class="sub">Détail des comptes, contrats, supports et lignes d’investissement.</div></div><button class="primary" id="addAsset">＋ Ajouter un placement</button></div>
+ <div class="grid kpis"><div class="card kpi"><div class="kpiicon">◉</div><div><strong id="assetTotal">75 000 €</strong><label>Valeur des lignes visibles</label></div></div><div class="card kpi"><div class="kpiicon">↗</div><div><strong class="good">+6,4 %</strong><label>Performance simulée</label></div></div><div class="card kpi"><div class="kpiicon">▤</div><div><strong id="assetCount">6</strong><label>Lignes affichées</label></div></div></div>
+ <div class="card"><div class="cardhead"><h2>Lignes de placement</h2><select class="select" id="assetClientFilter"><option value="all">Tous les clients</option></select></div><div class="tablewrap"><table><thead><tr><th>Client</th><th>Compte / enveloppe</th><th>Placement</th><th>Type</th><th>Quantité</th><th>Valeur unitaire</th><th>Valeur totale</th><th>Performance</th></tr></thead><tbody id="assetsTable"></tbody></table></div></div>
+</section>
+<section class="page" id="page-risks">
+ <div class="pagehead"><div><h1>Analyses & risques</h1><div class="sub">Indicateurs et alertes de démonstration pour le cabinet.</div></div><button class="primary" id="refreshRisk">↻ Actualiser l’analyse</button></div>
+ <div class="grid kpis"><div class="card kpi"><div class="kpiicon">♢</div><div><strong>12</strong><label>Alertes actives</label></div></div><div class="card kpi"><div class="kpiicon">⚠</div><div><strong class="bad">3 critiques</strong><label>À examiner</label></div></div><div class="card kpi"><div class="kpiicon">◈</div><div><strong>58 / 100</strong><label>Gold Risk Index</label></div></div></div>
+ <div class="grid twocol"><div class="card"><div class="cardhead"><h2>Gold Risk Index</h2><span class="badge">Données fictives</span></div><div style="display:flex;align-items:center;gap:20px"><div style="font-size:48px;font-weight:800">58<span style="font-size:17px;color:var(--muted)">/100</span></div><div style="flex:1"><div class="gri-bar"><span style="width:58%"></span></div><b>Risque modéré</b><p class="sub">Score illustratif, non officiel et non prédictif.</p></div></div><div class="list"><div class="listitem"><span>Volatilité historique (fictive)</span><b>18,2 %</b></div><div class="listitem"><span>Repli maximal simulé</span><b>−12,4 %</b></div><div class="listitem"><span>Exposition agrégée à l’or</span><b>3,2 %</b></div></div></div><div class="card"><div class="cardhead"><h2>Alertes à examiner</h2><button class="link" id="addAlert">＋ Créer une alerte</button></div><div class="list" id="riskAlerts"></div></div></div>
+</section>
+<section class="page" id="page-simulations">
+ <div class="pagehead"><div><h1>Simulations & scénarios</h1><div class="sub">Testez l’impact hypothétique de différents événements sur un portefeuille.</div></div></div>
+ <div class="notice">Les résultats sont pédagogiques et reposent sur des hypothèses simplifiées, pas sur une prévision financière.</div>
+ <div class="card"><div class="cardhead"><h2>Nouvelle simulation</h2><span class="badge">Calcul local</span></div><div class="formgrid"><div class="field"><label>Client</label><select id="simClient"></select></div><div class="field"><label>Scénario</label><select id="simType"><option value="market">Chute des marchés</option><option value="rates">Hausse des taux d’intérêt</option><option value="inflation">Inflation élevée</option><option value="realestate">Baisse immobilière</option><option value="gold">Variation du cours de l’or</option><option value="custom">Scénario personnalisé</option></select></div><div class="field"><label>Variation principale (%)</label><input type="number" id="simChange" value="-20" min="-100" max="1000"></div><div class="field"><label>Horizon</label><select id="simHorizon"><option>1 an</option><option>3 ans</option><option>5 ans</option><option>10 ans</option></select></div></div><button class="primary" id="runSim" style="margin-top:14px">Lancer la simulation</button><div id="simResult" style="margin-top:14px"></div></div>
+ <div class="card" style="margin-top:14px"><div class="cardhead"><h2>Scénarios enregistrés</h2></div><div class="tablewrap"><table><thead><tr><th>Scénario</th><th>Client</th><th>Hypothèse</th><th>Impact estimé</th><th>Statut</th></tr></thead><tbody id="simTable"></tbody></table></div></div>
+</section>
+<section class="page" id="page-realestate">
+ <div class="pagehead"><div><h1>Patrimoine immobilier</h1><div class="sub">Fiches détaillées des biens immobiliers détenus.</div></div><button class="primary" id="addProperty">＋ Ajouter un bien</button></div>
+ <div class="card" style="margin-top:14px"><div class="cardhead"><h2>Fiches des biens</h2><button class="link" id="exportProperties">Exporter CSV</button></div><div class="tablewrap"><table><thead><tr><th>Bien</th><th>Client</th><th>Type</th><th>Localisation</th><th>Surface</th><th>Valeur estimée</th><th>Loyer annuel</th><th>Emprunt restant</th></tr></thead><tbody id="propertiesTable"></tbody></table></div></div>
+</section>
+<section class="page" id="page-assistant">
+ <div class="pagehead"><div><h1>Assistant IA</h1><div class="sub">Espace de démonstration pour préparer des analyses et des comptes rendus.</div></div><span class="badge">Simulation locale</span></div>
+ <div class="notice">Cet assistant ne se connecte pas à un modèle IA et n’envoie aucune donnée. Il propose des réponses de démonstration à partir de mots-clés.</div>
+ <div class="card"><div id="chatHistory" style="display:grid;gap:12px;min-height:200px;max-height:440px;overflow:auto;padding:4px"></div><div class="aiinput"><input id="aiInput" placeholder="Ex. : analyser les risques de concentration…"><button class="primary" id="aiSend">Envoyer</button></div><div class="ai-suggestions" style="margin-top:12px"><button data-ai="Résume le patrimoine du cabinet">Résumer le patrimoine du cabinet</button><button data-ai="Analyser le portefeuille de Famille Dubois">Analyser un portefeuille client</button><button data-ai="Préparer un compte rendu de rendez-vous">Préparer un compte rendu</button></div></div>
+</section>
+<section class="page" id="page-appointments">
+ <div class="pagehead"><div><h1>Rendez-vous</h1><div class="sub">Calendrier de démonstration des rendez-vous du cabinet.</div></div><button class="primary" id="addAppointment">＋ Nouveau rendez-vous</button></div>
+ <div class="card"><div class="cardhead"><h2>Agenda du jour</h2><span class="pill">Fuseau horaire local</span></div><div class="list" id="appointmentsList"></div></div>
+</section>
+<section class="page" id="page-tasks">
+ <div class="pagehead"><div><h1>Tâches</h1><div class="sub">Suivi des actions à réaliser par les conseillers.</div></div><button class="primary" id="addTask">＋ Nouvelle tâche</button></div>
+ <div class="card"><div class="cardhead"><h2>Liste de travail</h2><span class="badge" id="taskCount"></span></div><div class="list" id="tasksList"></div></div>
+</section>
+<section class="page" id="page-messages">
+ <div class="pagehead"><div><h1>Messagerie interne</h1><div class="sub">Conversations fictives de démonstration.</div></div><button class="primary" id="newMessage">＋ Nouveau message</button></div>
+ <div class="card"><div class="list" id="messagesList"></div></div>
+</section>
+<section class="page" id="page-documents">
+ <div class="pagehead"><div><h1>Documents</h1><div class="sub">Documents fictifs associés aux dossiers clients.</div></div><button class="primary" id="addDocument">＋ Ajouter un document</button></div>
+ <div class="card"><div class="tablewrap"><table><thead><tr><th>Document</th><th>Client</th><th>Type</th><th>Dernière modification</th><th>Statut</th></tr></thead><tbody id="documentsTable"></tbody></table></div></div>
+</section>
+<section class="page" id="page-reports">
+ <div class="pagehead"><div><h1>Rapports PDF</h1><div class="sub">Préparez un rapport patrimonial et exportez-le en PDF depuis votre navigateur.</div></div></div>
+ <div class="card"><div class="formgrid"><div class="field"><label>Client</label><select id="reportClient"></select></div><div class="field"><label>Modèle</label><select id="reportType"><option>Synthèse patrimoniale</option><option>Rapport complet</option><option>Analyse des risques</option><option>Immobilier</option></select></div><div class="field"><label>Sections à inclure</label><select id="reportSections"><option>Patrimoine, allocations, performances et risques</option><option>Patrimoine et allocation uniquement</option><option>Rapport détaillé avec historique</option></select></div><div class="field"><label>Nom du cabinet</label><input id="firmName" value="PATRIMONIA — Cabinet de démonstration"></div></div><button class="primary" id="generateReport" style="margin-top:15px">Préparer et imprimer / enregistrer en PDF</button><p class="sub">Le navigateur ouvrira la fenêtre d’impression. Choisissez « Enregistrer au format PDF ».</p><div id="reportPreview"></div></div>
+</section>
+<section class="page" id="page-settings">
+ <div class="pagehead"><div><h1>Paramètres</h1><div class="sub">Préférences personnelles et configuration de démonstration du cabinet.</div></div></div>
+ <div class="grid twocol"><div class="card"><div class="cardhead"><h2>Préférences personnelles</h2></div><div class="formgrid"><div class="field"><label>Nom affiché</label><input id="settingName" value="Sabri Casado"></div><div class="field"><label>Fonction</label><input id="settingRole" value="Conseiller en gestion de patrimoine"></div><div class="field"><label>Thème</label><select id="settingTheme"><option value="light">Clair</option><option value="dark" selected>Sombre</option></select></div><div class="field"><label>Notifications</label><select id="settingNotifications"><option>Alertes importantes</option><option>Toutes les notifications</option><option>Silencieuses</option></select></div></div><button class="primary" id="savePrefs" style="margin-top:14px">Enregistrer les préférences</button></div><div class="card"><div class="cardhead"><h2>Configuration administrateur</h2><span class="badge">Démo locale</span></div><div class="field"><label>Nom du cabinet</label><input id="adminFirm" value="PATRIMONIA — Cabinet de démonstration"></div><div class="field" style="margin-top:10px"><label>Seuil d’alerte de concentration (%)</label><input type="number" id="concentrationThreshold" value="25" min="1" max="100"></div><div class="field" style="margin-top:10px"><label>Seuil d’alerte de baisse (%)</label><input type="number" id="drawdownThreshold" value="10" min="1" max="100"></div><button class="primary" id="saveAdmin" style="margin-top:14px">Enregistrer les réglages</button></div></div><div class="card" style="margin-top:14px"><div class="cardhead"><h2>Journal d’audit de démonstration</h2><button class="link" id="exportAudit">Exporter CSV</button></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Utilisateur</th><th>Action</th><th>Détail</th></tr></thead><tbody id="auditTable"></tbody></table></div></div>
+</section>
+<section class="page" id="page-profile">
+ <div class="pagehead"><div><h1>Mon espace</h1><div class="sub">Profil de l’utilisateur actuellement affiché dans cette démonstration.</div></div></div>
+ <div class="grid twocol"><div class="card"><div class="cardhead"><h2>Profil conseiller</h2></div><div style="display:flex;align-items:center;gap:14px;margin-bottom:18px"><div class="avatar" style="width:60px;height:60px;font-size:22px">TD</div><div><h2 style="margin:0 0 4px">Thomas Dubois</h2><div class="sub">Conseiller en gestion de patrimoine</div><span class="badge">Compte de démonstration</span></div></div><div class="list"><div class="listitem"><span>Rôle</span><b>Conseiller</b></div><div class="listitem"><span>Clients attribués</span><b>28 (exemple)</b></div><div class="listitem"><span>Dernière connexion</span><b>Session locale</b></div></div><button class="primary" style="margin-top:14px" data-goto="settings">Modifier mes préférences</button></div><div class="card"><div class="cardhead"><h2>Accès & confidentialité</h2></div><p>Cette version est un prototype local : elle ne possède pas de véritable connexion, de gestion des droits ou de serveur partagé.</p><p class="sub">N’utilisez que des données fictives. Les réglages sont enregistrés localement dans le navigateur lorsque c’est possible.</p><button class="secondary" id="clearData">Réinitialiser les ajouts locaux</button></div></div>
+</section>
+</div>
+</main>
+</div>
+
+<div class="account-backdrop" id="accountBackdrop"><div class="account-modal">
+ <div class="cardhead"><div><h2 id="accountTitle">Connexion à PATRIMONIA</h2><div class="sub" id="accountSubtitle">Choisissez votre compte de démonstration.</div></div><button class="link" id="closeAccount" aria-label="Fermer">✕</button></div>
+ <div id="accountBody"></div>
+</div></div>
+<div class="modalback" id="modalBack"><div class="modal"><div class="cardhead"><h2 id="modalTitle">Ajouter</h2><button class="link" id="closeModal">✕</button></div><div id="modalBody"></div><div class="modalfoot"><button class="secondary" id="cancelModal">Annuler</button><button class="primary" id="saveModal">Enregistrer</button></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n);
+const moneyM=n=>n.toLocaleString('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:1})+' M€';
+const clients=[
+{id:1,name:'Famille Dubois',advisor:'Thomas Dubois',wealth:12400000,profile:'Équilibré',perf:'+6,2 %',alerts:1,initials:'FD'},
+{id:2,name:'M. Laurent Moreau',advisor:'Thomas Dubois',wealth:9800000,profile:'Dynamique',perf:'+8,1 %',alerts:2,initials:'LM'},
+{id:3,name:'Famille Bernard',advisor:'Claire Martin',wealth:8600000,profile:'Prudent',perf:'+3,4 %',alerts:0,initials:'FB'},
+{id:4,name:'Mme Sophie Martin',advisor:'Thomas Dubois',wealth:7100000,profile:'Équilibré',perf:'+5,1 %',alerts:1,initials:'SM'},
+{id:5,name:'M. Antoine Lefèvre',advisor:'Claire Martin',wealth:6900000,profile:'Dynamique',perf:'+7,3 %',alerts:0,initials:'AL'},
+{id:6,name:'SCI des Oliviers',advisor:'Thomas Dubois',wealth:5400000,profile:'Immobilier',perf:'+2,9 %',alerts:1,initials:'SO'}
+];
+const allocations=[['Immobilier',28.5,53124000,'#ffad4d'],['Assurance-vie',22.4,41753600,'#3b91f5'],['Actions / ETF',18.7,34856800,'#4739b5'],['Obligations',9.6,17894400,'#8264ed'],['Liquidités',6.8,12675200,'#6978ed'],['SCPI / OPCI',6.1,11370400,'#5e9d99'],['Or & matières premières',3.2,5964800,'#e9bf38'],['Cryptomonnaies',2.4,4473600,'#273d72'],['Autres',2.3,4287200,'#aab5c6']];
+let assets=[
+{client:'Famille Dubois',account:'PEA · Banque A',name:'ETF MSCI World',type:'ETF actions',qty:100,unit:350,value:35000,perf:8.2},
+{client:'Famille Dubois',account:'Compte-titres',name:'Action LVMH',type:'Action',qty:50,unit:600,value:30000,perf:3.5},
+{client:'Famille Dubois',account:'Assurance-vie · Contrat Horizon',name:'Fonds obligataire prudent',type:'Fonds',qty:100,unit:100,value:10000,perf:1.8},
+{client:'M. Laurent Moreau',account:'PEA · Banque B',name:'ETF S&P 500',type:'ETF actions',qty:80,unit:520,value:41600,perf:11.2},
+{client:'Mme Sophie Martin',account:'Assurance-vie · Contrat Équilibre',name:'Fonds en euros',type:'Fonds euros',qty:1,unit:42000,value:42000,perf:2.4},
+{client:'Famille Bernard',account:'Compte-titres',name:'Obligation d’entreprise (exemple)',type:'Obligation',qty:20,unit:1000,value:20000,perf:2.1}
+];
+let properties=[
+{name:'Appartement — exemple',client:'Famille Dubois',type:'Résidentiel',location:'Nice (localisation fictive)',surface:'82 m²',value:620000,rent:24000,debt:180000},
+{name:'Maison — exemple',client:'M. Laurent Moreau',type:'Résidentiel',location:'Cannes (localisation fictive)',surface:'145 m²',value:1250000,rent:0,debt:420000},
+{name:'SCPI — exemple',client:'Mme Sophie Martin',type:'SCPI',location:'Diversifiée France',surface:'—',value:180000,rent:8400,debt:0},
+{name:'Local commercial — exemple',client:'SCI des Oliviers',type:'Commercial',location:'Marseille (localisation fictive)',surface:'210 m²',value:890000,rent:54000,debt:310000}
+];
+let appointments=[
+{time:'09:00',name:'M. Laurent Moreau',detail:'Suivi portefeuille',owner:'Thomas Dubois'},
+{time:'11:00',name:'Mme Sophie Martin',detail:'Point retraite',owner:'Thomas Dubois'},
+{time:'14:00',name:'Famille Bernard',detail:'Présentation simulation',owner:'Claire Martin'},
+{time:'16:30',name:'M. Antoine Lefèvre',detail:'Stratégie immobilière',owner:'Claire Martin'}
+];
+let tasks=[
+{title:'Finaliser rapport annuel',client:'Famille Dubois',due:"Aujourd’hui",done:false,priority:'Haute'},
+{title:'Relance documents fiscaux',client:'Mme Sophie Martin',due:"Aujourd’hui",done:false,priority:'Haute'},
+{title:'Analyse réallocation',client:'M. Laurent Moreau',due:'Demain',done:false,priority:'Normale'},
+{title:'Suivi SCPI',client:'Famille Bernard',due:'17 oct.',done:false,priority:'Normale'},
+{title:'Préparer rendez-vous',client:'M. Antoine Lefèvre',due:'18 oct.',done:false,priority:'Normale'}
+];
+let alerts=[
+{title:'Exposition élevée à un secteur',client:'M. Laurent Moreau',when:'Il y a 2 h',level:'Critique'},
+{title:'Baisse importante d’un actif',client:'SCI des Oliviers',when:'Il y a 5 h',level:'Élevée'},
+{title:'Échéance de contrat',client:'Mme Sophie Martin',when:'Il y a 1 jour',level:'Échéance'}
+];
+let messages=[
+{from:'Claire Martin',subject:'Préparation du rendez-vous Bernard',detail:'J’ai ajouté les points à aborder dans la simulation.',time:'10:42',unread:true},
+{from:'Équipe patrimoniale',subject:'Réunion hebdomadaire',detail:'Ordre du jour disponible dans les documents.',time:'Hier',unread:true},
+{from:'Thomas Dubois',subject:'Note interne',detail:'Exemple de conversation interne.',time:'Hier',unread:false}
+];
+let documents=[
+{name:'Synthèse patrimoniale — exemple.pdf',client:'Famille Dubois',type:'Rapport',date:'14/04/2025',status:'Disponible'},
+{name:'Relevé contrat — exemple.pdf',client:'Mme Sophie Martin',type:'Relevé',date:'12/04/2025',status:'À vérifier'},
+{name:'Simulation retraite — exemple.pdf',client:'M. Laurent Moreau',type:'Simulation',date:'10/04/2025',status:'Disponible'}
+];
+let simulations=[
+{scenario:'Chute des marchés',client:'M. Laurent Moreau',assumption:'Actions −20 %',impact:'−420 000 €'},
+{scenario:'Hausse des taux',client:'Famille Dubois',assumption:'Taux +1,5 pt',impact:'−85 000 €'}
+];
+let audit=[
+{date:'Aujourd’hui 09:12',user:'Thomas Dubois',action:'Ouverture de session',detail:'Session locale de démonstration'},
+{date:'Aujourd’hui 09:18',user:'Thomas Dubois',action:'Consultation de portefeuille',detail:'Dossier fictif Famille Dubois'},
+{date:'Aujourd’hui 09:25',user:'Thomas Dubois',action:'Analyse simulée',detail:'Gold Risk Index consulté'}
+];
+let modalType=null;
+function toast(msg){let t=$('#toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2600)}
+function log(action,detail){audit.unshift({date:new Date().toLocaleString('fr-FR'),user:$('#settingName')?.value||'Thomas Dubois',action,detail});renderAudit()}
+function go(page){$$('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));$$('#nav button[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));$('#sidebar').classList.remove('open');if(page==='clients')renderClients();if(page==='placements')renderAssets();if(page==='realestate')renderProperties();if(page==='appointments')renderAppointments();if(page==='tasks')renderTasks();if(page==='messages')renderMessages();if(page==='documents')renderDocuments();if(page==='risks')renderAlerts();if(page==='simulations')renderSims();if(page==='settings')renderAudit();window.scrollTo(0,0)}
+$('#nav').addEventListener('click',e=>{let b=e.target.closest('button[data-page]');if(b)go(b.dataset.page)});
+document.addEventListener('click',e=>{let b=e.target.closest('[data-goto]');if(b)go(b.dataset.goto)});
+$('#mobilemenu').onclick=()=>$('#sidebar').classList.toggle('open');
+function renderLegend(){ $('#legend').innerHTML=allocations.map(a=>`<div class="legendrow"><span class="dot" style="background:${a[3]}"></span><span>${a[0]}</span><b>${a[1].toLocaleString('fr-FR',{maximumFractionDigits:1})} %</b></div>`).join('')}
+function renderTopClients(){ $('#topClients').innerHTML=clients.slice().sort((a,b)=>b.wealth-a.wealth).slice(0,5).map((c,i)=>`<div class="clientrow"><span class="rank">${i+1}</span><span class="smallavatar">${c.initials}</span><div><span>${c.name}</span><div class="bar"><span style="width:${c.wealth/12400000*100}%"></span></div></div><strong>${moneyM(c.wealth/1e6)}</strong></div>`).join('')}
+function renderHomeLists(){ $('#homeAppointments').innerHTML=appointments.slice(0,4).map((a,i)=>`<div class="listitem"><span class="time">${a.time}</span><div style="flex:1"><b>${a.name}</b><small>${a.detail} · ${a.owner}</small><small class="meeting-status">${a.response?'Réponse : '+a.response:'En attente de réponse'}</small></div><button class="link meeting-reply" data-meeting-reply="${i}">${a.response?'Modifier':'Répondre'}</button></div>`).join('');$('#homeTasks').innerHTML=tasks.slice(0,4).map((t,i)=>`<div class="listitem"><input class="taskcheck" type="checkbox" data-task="${i}" ${t.done?'checked':''}><div style="flex:1"><b style="${t.done?'text-decoration:line-through;color:#9aa5b5':''}">${t.title}</b><small>${t.client}</small></div><span class="${t.due==='Aujourd’hui'?'bad':'sub'}" style="font-size:10px">${t.done?'Terminé':t.due}</span></div>`).join('');$('#homeAlerts').innerHTML=alerts.slice(0,3).map(a=>`<div class="listitem"><span style="color:var(--red)">●</span><div style="flex:1"><b>${a.title}</b><small>${a.client}</small></div><small>${a.when}</small></div>`).join('')}
+function renderPerformance(){let vals=[['Actions / ETF',12.4,95],['Obligations',4.8,44],['Assurance-vie',6.1,61],['Immobilier',3.9,39],['SCPI / OPCI',8.7,72],['Or',2.1,26],['Portefeuille',5.6,58]];$('#performanceBars').innerHTML=vals.map(v=>`<div class="barcol"><b>+${String(v[1]).replace('.',',')}%</b><div class="rect" style="height:${v[2]}px"></div><small>${v[0]}</small></div>`).join('')}
+function renderClients(){ $('#clientsTable').innerHTML=clients.map(c=>`<tr><td><b>${c.name}</b><br><small class="sub">ID client ${String(c.id).padStart(4,'0')}</small></td><td>${c.advisor}</td><td><b>${moneyM(c.wealth/1e6)}</b></td><td><span class="badge">${c.profile}</span></td><td class="${c.perf.startsWith('+')?'good':''}">${c.perf}</td><td>${c.alerts?`<span class="tag">${c.alerts} alerte(s)</span>`:'—'}</td><td><button class="link" data-client="${c.id}">Ouvrir →</button></td></tr>`).join('');$('#clientCount').textContent=clients.length+' clients de démonstration';populateClientSelects()}
+function renderAssets(){let filter=$('#assetClientFilter')?.value||'all';let rows=assets.filter(a=>filter==='all'||a.client===filter);$('#assetsTable').innerHTML=rows.map(a=>`<tr><td>${a.client}</td><td>${a.account}</td><td><b>${a.name}</b></td><td><span class="badge">${a.type}</span></td><td>${a.qty.toLocaleString('fr-FR')}</td><td>${euro(a.unit)}</td><td><b>${euro(a.value)}</b></td><td class="${a.perf>=0?'good':'bad'}">${a.perf>=0?'+':''}${String(a.perf).replace('.',',')} %</td></tr>`).join('');$('#assetTotal').textContent=euro(rows.reduce((s,a)=>s+a.value,0));$('#assetCount').textContent=rows.length}
+function renderProperties(){ $('#propertiesTable').innerHTML=properties.map(p=>`<tr><td><b>${p.name}</b></td><td>${p.client}</td><td>${p.type}</td><td>${p.location}</td><td>${p.surface}</td><td><b>${euro(p.value)}</b></td><td>${euro(p.rent)}</td><td>${euro(p.debt)}</td></tr>`).join('')}
+function renderAppointments(){ $('#appointmentsList').innerHTML=appointments.map((a,i)=>`<div class="listitem"><span class="time">${a.time}</span><div style="flex:1"><b>${a.name}</b><small>${a.detail} · Conseiller : ${a.owner}</small><small class="meeting-status">${a.response?'Réponse : '+a.response:'En attente de réponse'}</small></div><button class="link meeting-reply" data-meeting-reply="${i}">${a.response?'Modifier la réponse':'Répondre'}</button></div>`).join('')}
+function renderTasks(){ $('#tasksList').innerHTML=tasks.map((t,i)=>`<div class="listitem"><input class="taskcheck" type="checkbox" data-task="${i}" ${t.done?'checked':''}><div style="flex:1"><b style="${t.done?'text-decoration:line-through;color:#9aa5b5':''}">${t.title}</b><small>${t.client} · Priorité ${t.priority}</small></div><span class="${t.due==='Aujourd’hui'?'bad':'sub'}">${t.done?'Terminé':t.due}</span></div>`).join('');$('#taskCount').textContent=tasks.filter(t=>!t.done).length+' tâches restantes'}
+function renderMessages(){ $('#messagesList').innerHTML=messages.map((m,i)=>`<div class="listitem message-item"><div class="smallavatar">${escapeHTML((m.from||'').split(' ').map(x=>x[0]).slice(0,2).join(''))}</div><div style="flex:1"><b>${escapeHTML(m.subject||'Sans objet')} ${m.unread?'<span class="badge">Nouveau</span>':''}</b><small>${escapeHTML(m.from||'')} · ${escapeHTML(m.time||'')}</small><div style="margin-top:5px">${escapeHTML(m.detail||'')}</div>${m.reply?`<div class="notice" style="margin-top:8px"><b>Votre réponse :</b> ${escapeHTML(m.reply)}</div>`:''}</div><button class="link" data-message-open="${i}">${m.reply?'Voir / répondre':'Répondre'}</button></div>`).join('')}
+function renderDocuments(){ $('#documentsTable').innerHTML=documents.map(d=>`<tr><td><b>${d.name}</b></td><td>${d.client}</td><td>${d.type}</td><td>${d.date}</td><td><span class="badge">${d.status}</span></td></tr>`).join('')}
+function renderAlerts(){ $('#riskAlerts').innerHTML=alerts.map(a=>`<div class="listitem"><span class="tag">${a.level}</span><div style="flex:1"><b>${a.title}</b><small>${a.client} · ${a.when}</small></div><button class="link" data-dismiss="${alerts.indexOf(a)}">Traiter</button></div>`).join('')}
+function renderSims(){ $('#simTable').innerHTML=simulations.map(s=>`<tr><td>${s.scenario}</td><td>${s.client}</td><td>${s.assumption}</td><td><b>${s.impact}</b></td><td><span class="badge">Simulation</span></td></tr>`).join('')}
+function renderAudit(){ $('#auditTable').innerHTML=audit.map(a=>`<tr><td>${a.date}</td><td>${a.user}</td><td>${a.action}</td><td>${a.detail}</td></tr>`).join('')}
+function populateClientSelects(){['assetClientFilter','simClient','reportClient'].forEach(id=>{let el=$('#'+id);if(!el)return;let old=el.value;let opts=(id==='assetClientFilter'?'<option value="all">Tous les clients</option>':'')+clients.map(c=>`<option>${c.name}</option>`).join('');el.innerHTML=opts;if([...el.options].some(o=>o.value===old))el.value=old})}
+function loadSavedDemoData(){try{const raw=localStorage.getItem('patrimonia-demo-data-v2');if(!raw)return;const d=JSON.parse(raw);const pairs={clients,assets,properties,appointments,tasks,messages,documents,alerts,simulations,audit};for(const k of Object.keys(pairs))if(Array.isArray(d[k]))pairs[k].splice(0,pairs[k].length,...d[k]);}catch(e){console.warn('Chargement des données locales impossible',e)}}
+function saveDemoData(){try{const d={clients,assets,properties,appointments,tasks,messages,documents,alerts,simulations,audit};localStorage.setItem('patrimonia-demo-data-v2',JSON.stringify(d));}catch(e){console.warn('Sauvegarde locale indisponible',e)}}
+function init(){renderLegend();renderTopClients();renderHomeLists();renderPerformance();renderClients();renderAssets();renderProperties();renderAppointments();renderTasks();renderMessages();renderDocuments();renderAlerts();renderSims();renderAudit();let d=new Date();$('#today').textContent='Démo · '+d.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('#assetClientFilter').addEventListener('change',renderAssets)}
+function showModal(title,type,body){modalType=type;$('#modalTitle').textContent=title;$('#modalBody').innerHTML=body;$('#modalBack').classList.add('show')}
+function closeModal(){$('#modalBack').classList.remove('show');modalType=null}
+$('#closeModal').onclick=$('#cancelModal').onclick=closeModal;
+$('#modalBack').addEventListener('click',e=>{if(e.target===$('#modalBack'))closeModal()});
+$('#addClient').onclick=()=>showModal('Nouveau client','client',`<div class="formgrid"><div class="field"><label>Nom du client / foyer</label><input id="mName" required></div><div class="field"><label>Conseiller</label><select id="mAdvisor"><option>Thomas Dubois</option><option>Claire Martin</option></select></div><div class="field"><label>Patrimoine (€)</label><input id="mWealth" type="number" value="250000"></div><div class="field"><label>Profil</label><select id="mProfile"><option>Prudent</option><option>Équilibré</option><option>Dynamique</option><option>Immobilier</option></select></div></div>`);
+$('#addAsset').onclick=()=>showModal('Ajouter un placement','asset',`<div class="formgrid"><div class="field"><label>Client</label><select id="mClient">${clients.map(c=>`<option>${c.name}</option>`).join('')}</select></div><div class="field"><label>Compte / enveloppe</label><input id="mAccount" value="Compte-titres"></div><div class="field"><label>Nom du placement</label><input id="mAssetName"></div><div class="field"><label>Type</label><select id="mAssetType"><option>Action</option><option>ETF actions</option><option>Obligation</option><option>Fonds</option><option>Fonds euros</option><option>SCPI</option><option>Liquidités</option><option>Or</option><option>Crypto</option><option>Autre</option></select></div><div class="field"><label>Quantité</label><input id="mQty" type="number" value="1" min="0"></div><div class="field"><label>Valeur unitaire (€)</label><input id="mUnit" type="number" value="1000" min="0"></div></div>`);
+$('#addProperty').onclick=()=>showModal('Ajouter un bien immobilier','property',`<div class="formgrid"><div class="field"><label>Nom du bien</label><input id="mPropName"></div><div class="field"><label>Client</label><select id="mPropClient">${clients.map(c=>`<option>${c.name}</option>`).join('')}</select></div><div class="field"><label>Type</label><select id="mPropType"><option>Résidentiel</option><option>Commercial</option><option>SCPI</option><option>Autre</option></select></div><div class="field"><label>Localisation (fictive)</label><input id="mPropLoc" value="France (exemple)"></div><div class="field"><label>Surface</label><input id="mPropSurface" value="80 m²"></div><div class="field"><label>Valeur estimée (€)</label><input id="mPropValue" type="number" value="300000"></div><div class="field"><label>Loyers annuels (€)</label><input id="mPropRent" type="number" value="12000"></div><div class="field"><label>Emprunt restant (€)</label><input id="mPropDebt" type="number" value="100000"></div></div>`);
+$('#addTask').onclick=()=>showModal('Nouvelle tâche','task',`<div class="formgrid"><div class="field"><label>Intitulé</label><input id="mTaskTitle"></div><div class="field"><label>Client</label><select id="mTaskClient">${clients.map(c=>`<option>${c.name}</option>`).join('')}</select></div><div class="field"><label>Échéance</label><select id="mTaskDue"><option>Aujourd’hui</option><option>Demain</option><option>Cette semaine</option></select></div><div class="field"><label>Priorité</label><select id="mTaskPriority"><option>Normale</option><option>Haute</option><option>Basse</option></select></div></div>`);
+$('#addAppointment').onclick=()=>showModal('Nouveau rendez-vous','appointment',`<div class="formgrid"><div class="field"><label>Heure</label><input id="mApTime" type="time" value="15:00"></div><div class="field"><label>Client</label><select id="mApClient">${clients.map(c=>`<option>${c.name}</option>`).join('')}</select></div><div class="field"><label>Objet</label><input id="mApDetail" value="Rendez-vous de suivi"></div><div class="field"><label>Conseiller</label><select id="mApOwner"><option>Thomas Dubois</option><option>Claire Martin</option></select></div></div>`);
+$('#newMessage').onclick=()=>showModal('Nouveau message','message',`<div class="field"><label>Destinataire</label><select id="mMsgTo"><option>Claire Martin</option><option>Équipe patrimoniale</option><option>Thomas Dubois</option></select></div><div class="field" style="margin-top:10px"><label>Objet</label><input id="mMsgSubject"></div><div class="field" style="margin-top:10px"><label>Message</label><textarea id="mMsgDetail"></textarea></div>`);
+$('#addDocument').onclick=()=>showModal('Ajouter un document de démonstration','document',`<div class="field"><label>Nom du document</label><input id="mDocName"></div><div class="field" style="margin-top:10px"><label>Client</label><select id="mDocClient">${clients.map(c=>`<option>${c.name}</option>`).join('')}</select></div><div class="field" style="margin-top:10px"><label>Type</label><select id="mDocType"><option>Rapport</option><option>Relevé</option><option>Simulation</option><option>Autre</option></select></div>`);
+$('#addAlert').onclick=()=>showModal('Créer une alerte de démonstration','alert',`<div class="field"><label>Intitulé</label><input id="mAlertTitle"></div><div class="field" style="margin-top:10px"><label>Client</label><select id="mAlertClient">${clients.map(c=>`<option>${c.name}</option>`).join('')}</select></div><div class="field" style="margin-top:10px"><label>Niveau</label><select id="mAlertLevel"><option>Normale</option><option>Élevée</option><option>Critique</option></select></div>`);
+$('#saveModal').onclick=()=>{try{
+if(modalType==='client'){let name=$('#mName').value.trim();if(!name)throw Error('Saisissez un nom.');clients.push({id:Math.max(...clients.map(c=>c.id))+1,name,advisor:$('#mAdvisor').value,wealth:+$('#mWealth').value||0,profile:$('#mProfile').value,perf:'—',alerts:0,initials:name.split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase()});renderClients();renderTopClients();log('Ajout client',name)}
+if(modalType==='asset'){let name=$('#mAssetName').value.trim();if(!name)throw Error('Saisissez le nom du placement.');let qty=+$('#mQty').value||0,unit=+$('#mUnit').value||0;assets.push({client:$('#mClient').value,account:$('#mAccount').value,name,type:$('#mAssetType').value,qty,unit,value:qty*unit,perf:0});renderAssets();log('Ajout placement',name)}
+if(modalType==='property'){let name=$('#mPropName').value.trim();if(!name)throw Error('Saisissez le nom du bien.');properties.push({name,client:$('#mPropClient').value,type:$('#mPropType').value,location:$('#mPropLoc').value,surface:$('#mPropSurface').value,value:+$('#mPropValue').value||0,rent:+$('#mPropRent').value||0,debt:+$('#mPropDebt').value||0});renderProperties();log('Ajout bien immobilier',name)}
+if(modalType==='task'){let title=$('#mTaskTitle').value.trim();if(!title)throw Error('Saisissez un intitulé.');tasks.unshift({title,client:$('#mTaskClient').value,due:$('#mTaskDue').value,done:false,priority:$('#mTaskPriority').value});renderTasks();renderHomeLists();log('Création tâche',title)}
+if(modalType==='appointment'){appointments.push({time:$('#mApTime').value,name:$('#mApClient').value,detail:$('#mApDetail').value,owner:$('#mApOwner').value});appointments.sort((a,b)=>a.time.localeCompare(b.time));renderAppointments();renderHomeLists();log('Création rendez-vous',$('#mApDetail').value)}
+if(modalType==='message'){let subject=$('#mMsgSubject').value.trim();if(!subject)throw Error('Saisissez un objet.');messages.unshift({from:$('#mMsgTo').value,subject,detail:$('#mMsgDetail').value,time:'À l’instant',unread:true});renderMessages();log('Nouveau message',subject)}
+if(modalType==='document'){let name=$('#mDocName').value.trim();if(!name)throw Error('Saisissez un nom.');documents.unshift({name,client:$('#mDocClient').value,type:$('#mDocType').value,date:new Date().toLocaleDateString('fr-FR'),status:'Ajouté localement'});renderDocuments();log('Ajout document',name)}
+if(modalType==='alert'){let title=$('#mAlertTitle').value.trim();if(!title)throw Error('Saisissez un intitulé.');alerts.unshift({title,client:$('#mAlertClient').value,when:'À l’instant',level:$('#mAlertLevel').value});renderAlerts();renderHomeLists();log('Création alerte',title)}
+closeModal();toast('Enregistré dans cette démonstration.');}catch(err){toast(err.message)}};
+document.addEventListener('change',e=>{if(e.target.matches('[data-task]')){let i=+e.target.dataset.task;if(tasks[i])tasks[i].done=e.target.checked;renderTasks();renderHomeLists();log('Mise à jour tâche',tasks[i]?.title||'Tâche')}});
+document.addEventListener('click',e=>{let c=e.target.closest('[data-client]');if(c){let cl=clients.find(x=>x.id===+c.dataset.client);if(cl){showModal('Dossier client — '+cl.name,'client-detail',`<div class="notice">Dossier de démonstration · données fictives</div><div class="formgrid"><div class="field"><label>Conseiller</label><b>${escapeHTML(cl.advisor)}</b></div><div class="field"><label>Patrimoine déclaré</label><b>${euro(cl.wealth)}</b></div><div class="field"><label>Profil</label><b>${escapeHTML(cl.profile)}</b></div><div class="field"><label>Performance indicative</label><b>${escapeHTML(cl.perf)}</b></div><div class="field"><label>Alertes</label><b>${cl.alerts||0}</b></div></div><div class="account-actions"><button class="primary" id="clientOpenAssets">Consulter ses placements</button><button class="secondary" id="clientCreateTask">Créer une tâche</button></div>`);setTimeout(()=>{const b=$('#clientOpenAssets');if(b)b.onclick=()=>{closeModal();go('placements');$('#assetClientFilter').value=cl.name;renderAssets()};const t=$('#clientCreateTask');if(t)t.onclick=()=>{closeModal();$('#addTask').click();setTimeout(()=>{if($('#mTaskClient'))$('#mTaskClient').value=cl.name},0)}},0)}}let d=e.target.closest('[data-dismiss]');if(d){let a=alerts.splice(+d.dataset.dismiss,1)[0];renderAlerts();renderHomeLists();log('Alerte traitée',a?.title||'Alerte');toast('Alerte marquée comme traitée.')}let m=e.target.closest('[data-meeting]');if(m)toast('Détail de rendez-vous fictif · '+m.dataset.meeting);let ai=e.target.closest('[data-ai]');if(ai){go('assistant');sendAI(ai.dataset.ai)}});
+$('#refreshRisk').onclick=()=>{renderAlerts();log('Actualisation analyse','Analyse fictive recalculée');toast('Analyse de démonstration actualisée.')};
+$('#runSim').onclick=()=>{let cl=$('#simClient').value||clients[0].name,typ=$('#simType').value,change=Number($('#simChange').value)||0;let c=clients.find(x=>x.name===cl)||clients[0];let factor=typ==='realestate'?.45:typ==='gold'?.04:typ==='rates'?.12:typ==='inflation'?.2:1;let impact=c.wealth*(change/100)*factor;let title=$('#simType').selectedOptions[0].text;let sign=impact<0?'−':'+';let formatted=sign+euro(Math.abs(impact));simulations.unshift({scenario:title,client:cl,assumption:(change>0?'+':'')+change+' % · '+$('#simHorizon').value,impact:formatted});renderSims();$('#simResult').innerHTML=`<div class="notice"><b>Résultat illustratif — ${cl}</b><br>Patrimoine de référence : ${euro(c.wealth)}<br>Impact hypothétique : <strong class="${impact<0?'bad':'good'}">${formatted}</strong><br>Valeur après scénario : <strong>${euro(c.wealth+impact)}</strong><br><small>Coefficient simplifié de ${factor} appliqué à l’hypothèse. Ce calcul n’est pas un modèle financier validé.</small></div>`;log('Simulation lancée',title+' · '+cl);};
+function sendAI(q){if(!q)return;let hist=$('#chatHistory');hist.insertAdjacentHTML('beforeend',`<div style="justify-self:end;background:#eaf2ff;padding:10px 13px;border-radius:12px;max-width:85%"><b>Vous</b><br>${escapeHTML(q)}</div>`);let lower=q.toLowerCase(),ans='Je peux aider à structurer une analyse, mais cette version utilise uniquement des réponses de démonstration et ne consulte aucune donnée réelle.';if(lower.includes('risque')||lower.includes('concentration'))ans='Analyse fictive : vérifiez la concentration par classe d’actifs, secteur et émetteur, puis comparez-la au profil de risque du client. Les seuils et données doivent être validés par le conseiller.';else if(lower.includes('portefeuille')||lower.includes('patrimoine'))ans='Synthèse fictive : examinez la répartition entre immobilier, assurance-vie, actions/ETF, obligations et liquidités. Vérifiez les expositions indirectes, les frais, la liquidité et l’adéquation aux objectifs du client.';else if(lower.includes('compte rendu')||lower.includes('rendez-vous'))ans='Trame proposée : 1) objectifs du client ; 2) situation et changements récents ; 3) allocation et performances ; 4) risques et hypothèses ; 5) décisions à valider ; 6) actions, responsables et échéances.';else if(lower.includes('or'))ans='Gold Risk Index fictif : 58/100, niveau modéré dans cette démonstration. Les facteurs illustratifs incluent volatilité, baisse maximale, tendance, dollar et taux réels. Ce score n’est ni officiel ni prédictif.';setTimeout(()=>{hist.insertAdjacentHTML('beforeend',`<div style="justify-self:start;background:#f3f6fb;padding:11px 13px;border-radius:12px;max-width:92%"><b>Assistant PATRIMONIA · Démo</b><br>${escapeHTML(ans)}</div>`);hist.scrollTop=hist.scrollHeight},150);hist.scrollTop=hist.scrollHeight;log('Question assistant IA',q)}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('#aiSend').onclick=()=>{sendAI($('#aiInput').value.trim());$('#aiInput').value=''};$('#aiInput').addEventListener('keydown',e=>{if(e.key==='Enter')$('#aiSend').click()});$('#aiHomeSend').onclick=()=>{let q=$('#aiHomeInput').value.trim();$('#aiHomeInput').value='';sendAI(q);go('assistant')};
+$('#globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){let q=e.target.value.toLowerCase().trim();let c=clients.find(c=>c.name.toLowerCase().includes(q));let a=assets.find(a=>a.name.toLowerCase().includes(q)||a.client.toLowerCase().includes(q));if(c){go('clients');toast('Client trouvé : '+c.name)}else if(a){go('placements');$('#assetClientFilter').value=a.client;renderAssets();toast('Placement trouvé : '+a.name)}else{toast(q?'Aucun résultat dans les données de démonstration.':'Saisissez un nom ou un actif.')}}});
+function applyTheme(theme){const t=theme==='light'?'light':'dark';document.documentElement.dataset.theme=t;$('#settingTheme').value=t;$('#themeToggle').textContent=t==='dark'?'☀️ Clair':'☾ Sombre';$('#themeToggle').title=t==='dark'?'Passer au thème clair':'Passer au thème sombre';try{localStorage.setItem('patrimonia-theme',t)}catch(e){}}
+$('#themeToggle').onclick=()=>{const next=document.documentElement.dataset.theme==='dark'?'light':'dark';applyTheme(next);toast('Thème '+(next==='dark'?'sombre':'clair')+' activé.');};
+try{applyTheme(localStorage.getItem('patrimonia-theme')||'dark')}catch(e){applyTheme('dark')}
+$('#savePrefs').onclick=()=>{let n=$('#settingName').value;$('.user b').textContent=n;log('Modification préférences','Profil et préférences');toast('Préférences enregistrées localement.');applyTheme($('#settingTheme').value);$('#userDisplayRole').textContent=$('#settingRole').value||'Conseiller en gestion de patrimoine';$('#welcomeTitle').textContent='Bonjour '+(n.trim().split(/\s+/)[0]||'Sabri');$('#userAvatar').textContent=n.trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();};
+$('#saveAdmin').onclick=()=>{try{localStorage.setItem('patrimonia-admin-settings',JSON.stringify({firm:$('#adminFirm').value,concentration:+$('#concentrationThreshold').value,drawdown:+$('#drawdownThreshold').value}));}catch(e){}log('Modification paramètres administrateur','Seuil concentration : '+$('#concentrationThreshold').value+' %');toast('Réglages de démonstration enregistrés.');};
+function downloadCSV(filename,rows){let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');let blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});let a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href)}
+$('#exportAudit').onclick=()=>downloadCSV('patrimonia-journal-demo.csv',[['Date','Utilisateur','Action','Détail'],...audit.map(a=>[a.date,a.user,a.action,a.detail])]);
+$('#exportProperties').onclick=()=>downloadCSV('patrimonia-immobilier-demo.csv',[['Bien','Client','Type','Localisation','Surface','Valeur estimée','Loyer annuel','Emprunt restant'],...properties.map(p=>[p.name,p.client,p.type,p.location,p.surface,p.value,p.rent,p.debt])]);
+$('#generateReport').onclick=()=>{let cl=$('#reportClient').value||clients[0].name,c=clients.find(x=>x.name===cl)||clients[0],firm=$('#firmName').value;$('#reportPreview').innerHTML=`<div class="notice">Rapport préparé pour ${escapeHTML(cl)}. Dans la fenêtre d’impression, choisissez « Enregistrer au format PDF ».</div>`;log('Génération rapport PDF',cl);let w=window.open('','_blank');if(!w){toast('Autorisez les fenêtres contextuelles pour générer le rapport.');return}w.document.write(`<!doctype html><html lang="fr"><meta charset="utf-8"><title>Rapport patrimonial — ${escapeHTML(cl)}</title><style>body{font:14px Arial;color:#14233b;margin:40px}h1{color:#10243c}h2{margin-top:30px;border-bottom:1px solid #ddd;padding-bottom:8px}.muted{color:#71809a}.box{border:1px solid #ddd;border-radius:10px;padding:16px;margin:16px 0}.grid{display:flex;gap:20px}.grid div{flex:1;background:#f5f8fc;padding:15px;border-radius:8px}table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px;border-bottom:1px solid #ddd}@media print{button{display:none}}</style><body><p class="muted">${escapeHTML(firm)}</p><h1>Rapport patrimonial</h1><p>Client : <b>${escapeHTML(cl)}</b></p><p class="muted">Document de démonstration · Données fictives · ${new Date().toLocaleDateString('fr-FR')}</p><div class="grid"><div><small>Patrimoine déclaré</small><h2>${euro(c.wealth)}</h2></div><div><small>Profil de risque</small><h2>${escapeHTML(c.profile)}</h2></div><div><small>Performance illustrative</small><h2>${escapeHTML(c.perf)}</h2></div></div><h2>Répartition indicative du cabinet</h2><table><tr><th>Classe d’actifs</th><th>Poids</th><th>Valeur indicative du cabinet</th></tr>${allocations.map(a=>`<tr><td>${escapeHTML(a[0])}</td><td>${a[1]} %</td><td>${euro(a[2])}</td></tr>`).join('')}</table><h2>Points de vigilance</h2><p>Examiner la diversification, la liquidité, les frais, les expositions indirectes et la cohérence des placements avec les objectifs du client. Les données de cette maquette sont fictives et ne constituent pas un conseil financier.</p><h2>Hypothèses et limites</h2><p>Les chiffres sont des exemples de démonstration. Toute recommandation doit être vérifiée et validée par un professionnel habilité.</p><button onclick="window.print()">Imprimer / Enregistrer en PDF</button><script>setTimeout(()=>window.print(),400)<\/script></body></html>`);w.document.close()};
+$('#clearData').onclick=()=>{if(confirm('Réinitialiser les ajouts temporaires de cette page ? Le rechargement remettra les données d’exemple.'))location.reload()};
+$('#notifyBtn').onclick=()=>{go('risks');toast('Voici les alertes de démonstration.')};
+loadSavedDemoData();
+init();
+
+// PATRIMONIA demo accounts, appointments responses and navigation helpers.
+const demoAccounts = [
+ {username:'sabri',password:'Sabri2026!',name:'Sabri Casado',initials:'SC',role:'Conseiller en gestion de patrimoine',shortRole:'Conseiller',clients:28},
+ {username:'admin',password:'Admin2026!',name:'Élodie Bernard',initials:'EB',role:'Administratrice du cabinet',shortRole:'Administratrice',clients:132},
+ {username:'manager',password:'Manager2026!',name:'Thomas Dubois',initials:'TD',role:'Manager patrimonial',shortRole:'Manager',clients:54},
+ {username:'claire',password:'Claire2026!',name:'Claire Martin',initials:'CM',role:'Conseillère en gestion de patrimoine',shortRole:'Conseillère',clients:24}
+];
+let activeDemoAccount = demoAccounts[0];
+function setAccountUI(a){
+ activeDemoAccount=a;
+ $('#userDisplayName').textContent=a.name;
+ $('#userDisplayRole').textContent=a.role;
+ $('#userAvatar').textContent=a.initials;
+ $('#welcomeTitle').textContent='Bonjour '+a.name.split(' ')[0];
+ const profile=$('#page-profile');
+ if(profile){
+  profile.innerHTML=`<div class="pagehead"><div><h1>Mon espace</h1><div class="sub">Votre profil et votre session PATRIMONIA ERP.</div></div></div>
+  <div class="grid twocol"><div class="card"><div class="cardhead"><h2>Profil utilisateur</h2><span class="badge">Compte de démonstration</span></div>
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px"><div class="avatar" style="width:60px;height:60px;font-size:22px">${a.initials}</div><div><h2 style="margin:0 0 4px">${a.name}</h2><div class="sub">${a.role}</div></div></div>
+  <div class="list"><div class="listitem"><span>Identifiant</span><b>${a.username}</b></div><div class="listitem"><span>Rôle</span><b>${a.shortRole}</b></div><div class="listitem"><span>Clients attribués (démo)</span><b>${a.clients}</b></div><div class="listitem"><span>Session</span><b>Locale au navigateur</b></div></div>
+  <div class="account-actions"><button class="primary" id="switchAccountBtn">Changer de compte</button><button class="secondary" id="logoutBtn">Se déconnecter</button></div></div>
+  <div class="card"><div class="cardhead"><h2>Comptes de démonstration</h2></div><div class="account-hint">Ces comptes servent à tester l’interface. Ne les utilisez pas pour protéger de vraies données : il n’y a pas de serveur d’authentification.</div>
+  ${demoAccounts.map(d=>`<div class="account-choice"><div><b>${d.name}</b><div class="sub">${d.shortRole} · identifiant : ${d.username}</div></div><button class="link" data-login-as="${d.username}">Utiliser</button></div>`).join('')}</div></div>`;
+ }
+}
+function openAccount(mode='login'){
+ const back=$('#accountBackdrop'), body=$('#accountBody');
+ $('#accountTitle').textContent=mode==='login'?'Connexion à PATRIMONIA':'Se connecter';
+ $('#accountSubtitle').textContent='Comptes de démonstration de l’entreprise.';
+ body.innerHTML=`<div class="field"><label for="loginUser">Identifiant</label><input id="loginUser" autocomplete="username" placeholder="Ex. sabri"></div>
+ <div class="field"><label for="loginPass">Mot de passe</label><input id="loginPass" type="password" autocomplete="current-password" placeholder="Mot de passe"></div>
+ <div class="account-hint"><b>Comptes disponibles pour tester :</b><br>Administratrice : admin / Admin2026!<br>Manager : manager / Manager2026!<br>Conseiller : sabri / Sabri2026!<br>Conseillère : claire / Claire2026!</div>
+ <div class="account-actions"><button class="primary" id="loginSubmit">Se connecter</button><button class="secondary" id="cancelLogin">Annuler</button></div>`;
+ back.classList.add('open');
+ $('#loginSubmit').onclick=()=>{
+  const u=$('#loginUser').value.trim().toLowerCase(), p=$('#loginPass').value;
+  const a=demoAccounts.find(d=>d.username===u&&d.password===p);
+  if(!a){toast('Identifiant ou mot de passe incorrect.');return;}
+  setAccountUI(a); back.classList.remove('open'); toast('Connecté en tant que '+a.name+'.'); go('home');
+ };
+ $('#cancelLogin').onclick=()=>back.classList.remove('open');
+}
+function logoutDemo(){ $('#accountBackdrop').classList.remove('open'); openAccount('login'); toast('Session de démonstration déconnectée.'); }
+function respondToMeeting(i){
+ const a=appointments[i]; if(!a)return;
+ $('#accountTitle').textContent='Répondre au rendez-vous';
+ $('#accountSubtitle').textContent=a.time+' · '+a.name+' · '+a.detail;
+ $('#accountBody').innerHTML=`<div class="field"><label for="meetingResponse">Votre réponse</label><select id="meetingResponse"><option value="Confirmé">Confirmer le rendez-vous</option><option value="À reprogrammer">Demander un autre créneau</option><option value="Refusé">Décliner le rendez-vous</option></select></div>
+ <div class="field"><label for="meetingMessage">Message (facultatif)</label><textarea id="meetingMessage" rows="3" placeholder="Ajouter un commentaire…"></textarea></div>
+ <div class="account-actions"><button class="primary" id="saveMeetingResponse">Envoyer la réponse</button><button class="secondary" id="cancelMeetingResponse">Annuler</button></div>`;
+ $('#accountBackdrop').classList.add('open');
+ $('#saveMeetingResponse').onclick=()=>{
+  a.response=$('#meetingResponse').value;
+  a.responseMessage=$('#meetingMessage').value.trim();
+  renderHomeLists(); renderAppointments(); saveDemoData(); log('Réponse rendez-vous',a.name+' · '+a.response);
+  $('#accountBackdrop').classList.remove('open');
+  toast('Réponse enregistrée localement.');
+ };
+ $('#cancelMeetingResponse').onclick=()=>$('#accountBackdrop').classList.remove('open');
+}
+$('#homeLogo').addEventListener('click',()=>go('home'));
+$('#homeLogo').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go('home')}});
+$('#userAvatar').style.cursor='pointer';
+$('#userAvatar').addEventListener('click',()=>go('profile'));
+$('#userDisplayName').style.cursor='pointer';
+$('#userDisplayName').addEventListener('click',()=>go('profile'));
+$('#closeAccount').addEventListener('click',()=>$('#accountBackdrop').classList.remove('open'));
+$('#accountBackdrop').addEventListener('click',e=>{if(e.target.id==='accountBackdrop')e.currentTarget.classList.remove('open')});
+document.addEventListener('click',e=>{
+ const r=e.target.closest('[data-meeting-reply]'); if(r){respondToMeeting(Number(r.dataset.meetingReply));return;}
+ const li=e.target.closest('[data-login-as]'); if(li){const a=demoAccounts.find(d=>d.username===li.dataset.loginAs);if(a){setAccountUI(a);$('#accountBackdrop').classList.remove('open');go('home');toast('Compte de démonstration : '+a.name);}return;}
+ if(e.target.closest('#switchAccountBtn')){openAccount('login');return;}
+ if(e.target.closest('#logoutBtn')){logoutDemo();return;}
+});
+// Re-apply theme through the existing CSS theme variables and keep the selected state consistent.
+const originalApplyTheme=applyTheme;
+applyTheme=function(theme){originalApplyTheme(theme);document.documentElement.dataset.theme=theme==='light'?'light':'dark';};
+
+
+try { setAccountUI(demoAccounts[0]); } catch(e) {}
+try { renderHomeLists(); renderAppointments(); } catch(e) {}
+// Controls that previously looked interactive now update their visible state.
+$('#allocationFilter').addEventListener('change',()=>{const mode=$('#allocationFilter').value;const names=allocations.map(a=>a[0]);if(mode==='Par conseiller')$('#legend').innerHTML=[['Thomas Dubois',62],['Claire Martin',24],['Sabri Casado',14]].map(x=>`<div class="legendrow"><span>${x[0]}</span><b>${x[1]} %</b></div>`).join('');else if(mode==='Par enveloppe')$('#legend').innerHTML=[['Assurance-vie',36],['Compte-titres',24],['PEA',18],['Immobilier',22]].map(x=>`<div class="legendrow"><span>${x[0]}</span><b>${x[1]} %</b></div>`).join('');else renderLegend();});
+$('#period').addEventListener('change',()=>{const p=$('#period').value;const labels=p==='1 an'?['2025']:p==='6 mois'?['S1','S2']:['2022','2023','2024','2025'];toast('Période affichée : '+p+' (données illustratives).');});
+try{const pref=JSON.parse(localStorage.getItem('patrimonia-admin-settings')||'null');if(pref){if(pref.firm)$('#adminFirm').value=pref.firm;if(pref.concentration)$('#concentrationThreshold').value=pref.concentration;if(pref.drawdown)$('#drawdownThreshold').value=pref.drawdown}}catch(e){}
+// Reliable local demo interactions and persistence.
+document.addEventListener('click',e=>{const mb=e.target.closest('[data-message-open]');if(mb){const i=Number(mb.dataset.messageOpen),m=messages[i];if(!m)return;m.unread=false;renderMessages();saveDemoData();showModal('Conversation — '+(m.subject||'Sans objet'),'message-reply',`<div class="notice"><b>De :</b> ${escapeHTML(m.from||'')}<br><b>Objet :</b> ${escapeHTML(m.subject||'')}<br><br>${escapeHTML(m.detail||'')}</div><div class="field"><label for="mReplyText">Votre réponse</label><textarea id="mReplyText" rows="5" placeholder="Écrivez votre réponse…">${escapeHTML(m.reply||'')}</textarea></div>`);setTimeout(()=>{const b=$('#saveModal');if(b)b.onclick=()=>{const v=$('#mReplyText').value.trim();if(!v){toast('Écrivez une réponse avant de l’envoyer.');return}m.reply=v;m.replyTime='À l’instant';m.unread=false;renderMessages();log('Réponse à un message',m.subject||'Message');saveDemoData();closeModal();toast('Réponse enregistrée localement.')};},0);return;}});
+// Keep the demo dataset available after closing/reopening the app in the same browser.
+for(const fn of ['renderClients','renderAssets','renderProperties','renderAppointments','renderTasks','renderMessages','renderDocuments','renderAlerts','renderSims','renderAudit','renderHomeLists','renderTopClients']){const original=window[fn];}
+const oldLog=log;log=function(action,detail){oldLog(action,detail);try{saveDemoData()}catch(e){}};
+// Persist theme and restore it on startup.
+try{const savedTheme=localStorage.getItem('patrimonia-theme');if(savedTheme==='light'||savedTheme==='dark')applyTheme(savedTheme)}catch(e){}
+// First visit starts at a proper sign-in screen; the app is revealed only after successful demo login.
+let requireFirstLogin=true;
+try{requireFirstLogin=sessionStorage.getItem('patrimonia-session-ok')!=='1'}catch(e){}
+const priorSetAccountUI=setAccountUI;
+setAccountUI=function(a){priorSetAccountUI(a);try{sessionStorage.setItem('patrimonia-session-ok','1')}catch(e){};saveDemoData()};
+const priorLogoutDemo=logoutDemo;
+logoutDemo=function(){try{sessionStorage.removeItem('patrimonia-session-ok')}catch(e){};priorLogoutDemo()};
+if(requireFirstLogin){openAccount('login');$('#cancelLogin').textContent='Fermer';$('#cancelLogin').onclick=()=>toast('Connectez-vous pour accéder à PATRIMONIA.');$('#closeAccount').onclick=()=>toast('Connectez-vous pour accéder à PATRIMONIA.');}
+
+</script>
+</body>
+</html>
