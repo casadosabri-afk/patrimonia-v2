@@ -1,16 +1,14 @@
 PATRIMONIA ERP — VERSION LOCALE EN COURS
 
 OUVRIR SOUS WINDOWS
-1. Extrais tout le ZIP dans un dossier.
-2. Installe Node.js 20 ou plus récent depuis https://nodejs.org si ce n'est pas déjà fait.
-3. Double-clique sur LANCER-PATRIMONIA.bat.
-4. Au premier lancement, le programme installe ses composants puis ouvre http://127.0.0.1:4173.
-5. Pour arrêter le serveur, ferme la fenêtre noire ouverte par le fichier .bat.
+Pour utiliser l'exécutable autonome, télécharge l'artefact « patrimonia-erp-windows-portable » dans l'onglet Actions du dépôt après la réussite du workflow de construction. Extrais l'artefact ZIP puis double-clique sur PATRIMONIA-ERP-1.0.0-Windows-Portable.exe. Node.js n'est pas nécessaire sur l'ordinateur du professeur.
+L'exécutable ouvre une fenêtre de bureau et conserve ses données dans le profil Windows de l'utilisateur.
+Le fichier LANCER-PATRIMONIA.bat reste disponible pour le développement. Cette méthode requiert Node.js 20 ou plus récent et ouvre l'application dans le navigateur.
 
 COMPTE ADMINISTRATEUR PERSONNEL
 Nom : Sabri Casado
 Identifiant : sabri@patrimonia.local
-Au premier démarrage de cette version, un mot de passe aléatoire unique est généré et affiché dans la fenêtre du serveur local. Conserve-le, puis connecte-toi avec cet identifiant. Tu peux ensuite le remplacer depuis le bouton « Mot de passe ».
+Au premier démarrage, un mot de passe aléatoire unique est généré et présenté dans une fenêtre. Conserve-le, puis connecte-toi avec cet identifiant. Tu peux ensuite le remplacer depuis le bouton « Mot de passe ».
 Le profil administrateur voit et peut gérer tous les foyers, les utilisateurs, les tâches, les rendez-vous, les documents et les exports.
 
 Comptes de démonstration :
@@ -20,7 +18,7 @@ Mot de passe : Camille2026!
 Deuxième conseillère : alex@patrimonia.local
 Mot de passe : Alex2026!
 
-Le mot de passe initial de Sabri est créé localement et n'est jamais inscrit dans le dépôt. Le compte est aussi créé au prochain lancement si la base SQLite existe déjà.
+Le mot de passe initial de Sabri est créé localement et n'est jamais inscrit dans le dépôt. Le compte est aussi créé au prochain lancement si la base SQLite existe déjà. L'exécutable Windows autonome est construit par GitHub Actions; il ne requiert pas Node.js au moment de son utilisation.
 
 DONNÉES
 Les dossiers créés sont enregistrés sur cet ordinateur dans prototype/data/patrimonia.sqlite. Les PDF et images restent dans prototype/data/documents. Ces données ne sont ni envoyées à un serveur distant ni synchronisées entre ordinateurs. Utilise uniquement des données fictives pour le projet scolaire.

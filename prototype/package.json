@@ -5,7 +5,9 @@
   "description": "ERP local de démonstration pour cabinet de gestion de patrimoine",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "desktop": "electron .",
+    "pack:win": "electron-builder --win portable --x64"
   },
   "engines": {
     "node": ">=20"
@@ -16,5 +18,39 @@
     "helmet": "^8.1.0",
     "multer": "^2.0.2",
     "pdfkit": "^0.17.2"
+  },
+  "main": "electron-main.js",
+  "devDependencies": {
+    "electron": "^45.0.0",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "fr.patrimonia.erp",
+    "productName": "PATRIMONIA ERP",
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "files": [
+      "server.js",
+      "electron-main.js",
+      "web/**/*",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "PATRIMONIA-ERP-${version}-Windows-Portable.exe"
+    }
   }
 }
