@@ -114,12 +114,8 @@ if (!db.prepare("SELECT id FROM users WHERE email=?").get("sabri@patrimonia.loca
  const initialSabriPassword = crypto.randomBytes(18).toString("base64url");
  db.prepare("INSERT INTO users(name,email,role,password_hash) VALUES(?,?,?,?)")
   .run("Sabri Casado", "sabri@patrimonia.local", "admin", hashPassword(initialSabriPassword));
- if (process.env.PATRIMONIA_BOOTSTRAP_PASSWORD_FILE) {
-  fs.writeFileSync(process.env.PATRIMONIA_BOOTSTRAP_PASSWORD_FILE, initialSabriPassword, { encoding: "utf8", mode: 0o600 });
- } else {
-  console.log("Compte administrateur Sabri Casado — identifiant: sabri@patrimonia.local");
-  console.log("Mot de passe initial à conserver: " + initialSabriPassword);
- }
+ console.log("Compte administrateur Sabri Casado — identifiant: sabri@patrimonia.local");
+ console.log("Mot de passe initial à conserver: " + initialSabriPassword);
 }
 
 app.disable("x-powered-by");
