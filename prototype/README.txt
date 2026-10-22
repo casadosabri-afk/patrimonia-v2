@@ -1,13 +1,25 @@
-PATRIMONIA — PROTOTYPE DE REFONTE
+PATRIMONIA ERP — VERSION LOCALE EN COURS
 
 OUVRIR SOUS WINDOWS
-1. Téléchargez ce dossier ou le ZIP du dépôt.
-2. Extrayez tout le contenu.
-3. Double-cliquez sur LANCER-PATRIMONIA.bat.
+1. Extrais tout le ZIP dans un dossier.
+2. Installe Node.js 20 ou plus récent depuis https://nodejs.org si ce n'est pas déjà fait.
+3. Double-clique sur LANCER-PATRIMONIA.bat.
+4. Au premier lancement, le programme installe ses composants puis ouvre http://127.0.0.1:4173.
+5. Pour arrêter le serveur, ferme la fenêtre noire ouverte par le fichier .bat.
 
-Vous pouvez aussi ouvrir index.html directement dans votre navigateur.
+COMPTES DE DÉMONSTRATION
+Administrateur : admin@patrimonia.local
+Mot de passe initial : ChangeMe123!
+Conseillère : camille@patrimonia.local
+Mot de passe : Camille2026!
+Deuxième conseillère : alex@patrimonia.local
+Mot de passe : Alex2026!
 
-À PROPOS DE CETTE VERSION
-Cette version est un prototype HTML interactif pour examiner le design et le parcours.
-La connexion est simulée. Les données affichées sont fictives. Quelques interactions de démonstration (navigation, recherche, création de foyer, état des tâches) fonctionnent dans la page.
-La connexion réelle par rôles, SQLite, les fichiers, les cours externes et les exports finaux restent à construire dans le service local prévu par REBUILD-PLAN.md.
+Le mot de passe administrateur peut être défini avant le premier démarrage par la variable PATRIMONIA_ADMIN_PASSWORD. La fonction de changement de mot de passe est aussi disponible dans l'application.
+
+DONNÉES
+Les dossiers créés sont enregistrés sur cet ordinateur dans prototype/data/patrimonia.sqlite. Les PDF et images restent dans prototype/data/documents. Ces données ne sont ni envoyées à un serveur distant ni synchronisées entre ordinateurs. Utilise uniquement des données fictives pour le projet scolaire.
+
+ÉTAT
+Cette version contient une authentification locale par rôles, des dossiers et personnes, des actifs, des dettes, des tâches, des rendez-vous, des documents, et des exports PDF/CSV. Les données de départ sont fictives.
+Le fournisseur de cours financiers automatiques et le packaging autonome en .exe restent à réaliser.

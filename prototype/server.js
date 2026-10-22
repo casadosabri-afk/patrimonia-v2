@@ -114,6 +114,7 @@ app.disable("x-powered-by");
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: false }));
+app.use((req,res,next)=>{ req.cookies=Object.fromEntries(String(req.headers.cookie||"").split(";").map(x=>x.trim()).filter(Boolean).map(x=>{const i=x.indexOf("=");return [decodeURIComponent(x.slice(0,i)),decodeURIComponent(x.slice(i+1))]})); next(); });
 app.use("/prototype-preview", express.static(path.join(__dirname, "prototype-preview")));
 
 function auth(req, res, next) {
@@ -395,7 +396,7 @@ app.get("/api/exports/households/:id.pdf", auth, requireHousehold, (req,res)=>{
  pdf.end();
 });
 app.get("/api/health", (req,res)=>res.json({ok:true,app:"PATRIMONIA ERP"}));
-app.get("*", (req,res)=>{
+app.use((req,res)=>{
  if(req.path.startsWith("/api/"))return res.status(404).json({error:"Route API inconnue."});
  res.sendFile(path.join(__dirname,"web","index.html"));
 });
